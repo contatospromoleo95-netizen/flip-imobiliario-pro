@@ -14,7 +14,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .logo{font-size:13px;font-weight:600;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
 .logo-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .nav{flex:1;padding:.5rem 0;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:10px;padding:.65rem 1rem;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item{display:flex;align-items:center;gap:10px;padding:.65rem 1rem;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent;user-select:none}
 .nav-item:hover{background:var(--bg2);color:var(--text)}
 .nav-item.active{background:var(--bg2);color:var(--gold);border-left-color:var(--gold);font-weight:500}
 .nav-item i{font-size:16px;width:18px;text-align:center;flex-shrink:0}
@@ -25,22 +25,27 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .page-sub{font-size:13px;color:var(--text2);margin-bottom:1.5rem}
 .two-col{display:grid;grid-template-columns:360px 1fr;gap:1rem;align-items:start}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
 .card-title{font-size:11px;font-weight:500;color:var(--text3);margin-bottom:.75rem;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
 .card-title i{font-size:15px;color:var(--gold)}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;margin-top:.65rem}
 label:first-of-type{margin-top:0}
-input[type=number],input[type=text],select{width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #D3D1C7;border-radius:var(--radius);background:var(--bg2);color:var(--text);outline:none;font-family:inherit}
-input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,150,58,.15)}
-.btn{padding:8px 16px;font-size:13px;font-weight:500;border-radius:var(--radius);cursor:pointer;border:none;transition:all .15s;font-family:inherit}
+input[type=number],input[type=text],input[type=date],input[type=url],select,textarea{width:100%;padding:7px 10px;font-size:13px;border:0.5px solid #D3D1C7;border-radius:var(--radius);background:var(--bg2);color:var(--text);outline:none;font-family:inherit}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,150,58,.15)}
+.btn{padding:8px 16px;font-size:13px;font-weight:500;border-radius:var(--radius);cursor:pointer;border:none;transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
 .btn-gold{background:var(--gold);color:#fff}
 .btn-gold:hover{background:#b8852f}
 .btn-outline{background:transparent;border:0.5px solid #D3D1C7;color:var(--text)}
 .btn-outline:hover{background:var(--bg2)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-danger{background:#FCEBEB;color:var(--red);border:0.5px solid #F7C1C1}
 .metric-card{background:var(--bg2);border-radius:var(--radius);padding:.85rem;text-align:center}
 .metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
-.metric-value{font-size:19px;font-weight:500;margin-top:3px}
+.metric-value{font-size:18px;font-weight:500;margin-top:3px}
 .metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.gold{color:var(--gold)}.blue{color:var(--blue)}
 .score-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:.4rem 0}
@@ -61,6 +66,7 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 .badge-amber{background:var(--bg-warn);color:var(--amber)}
 .badge-red{background:var(--bg-danger);color:var(--red)}
 .badge-blue{background:var(--bg-info);color:var(--blue)}
+.badge-gray{background:var(--bg2);color:var(--text2)}
 .divider{height:0.5px;background:var(--border);margin:.75rem 0}
 .tab-bar{display:flex;gap:3px;background:var(--bg2);padding:3px;border-radius:var(--radius);margin-bottom:1rem}
 .tab{flex:1;padding:6px 4px;font-size:12px;font-weight:500;text-align:center;border-radius:6px;cursor:pointer;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:inherit}
@@ -71,36 +77,58 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 .stat-row strong{font-weight:500}
 .subtotal-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem .6rem;border-radius:var(--radius);font-size:12px;font-weight:500;margin:.3rem 0;background:var(--bg2)}
 .section-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin:.65rem 0 .4rem}
-.sticky-results{position:sticky;top:1.5rem}
+.sticky-top{position:sticky;top:1.5rem}
 .benchmark-row{display:grid;grid-template-columns:1fr auto auto auto;gap:.4rem;align-items:center;padding:.45rem 0;border-bottom:0.5px solid var(--border);font-size:12px}
 .benchmark-row:last-child{border-bottom:none}
 .table-simple{width:100%;font-size:13px;border-collapse:collapse}
 .table-simple td,.table-simple th{padding:7px 10px;border-bottom:0.5px solid var(--border)}
 .table-simple th{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;font-weight:500}
 .table-simple tr:last-child td{border-bottom:none}
-.portfolio-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;transition:all .15s}
-.portfolio-card:hover{border-color:var(--gold)}
+.port-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;transition:border-color .15s;margin-bottom:.75rem}
+.port-card:hover{border-color:var(--gold)}
+.port-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
+.port-card-title{font-size:14px;font-weight:500}
+.port-card-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.port-card-actions{display:flex;gap:.4rem;align-items:center;flex-shrink:0}
 .progress-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px}
-.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;background:var(--gold);border-radius:2px}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s}
+.progress-fill.gold-fill{background:var(--gold)}
+.sim-box{background:var(--bg-info);border:0.5px solid #B5D4F4;border-radius:var(--radius);padding:.75rem 1rem;margin-top:.75rem}
+.sim-box-title{font-size:11px;font-weight:500;color:var(--blue);text-transform:uppercase;letter-spacing:.3px;margin-bottom:.5rem}
+.sim-box-warn{background:var(--bg-warn);border:0.5px solid #FAC775;border-radius:var(--radius);padding:.75rem 1rem;margin-top:.75rem}
+.sim-box-warn-title{font-size:11px;font-weight:500;color:var(--amber);text-transform:uppercase;letter-spacing:.3px;margin-bottom:.5rem}
 .disclaimer{font-size:11px;color:var(--text3);background:var(--bg2);padding:.65rem .9rem;border-radius:var(--radius);border-left:2px solid var(--border);line-height:1.6;margin-top:.75rem}
 .educ-item{border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:.5rem}
 .educ-header{padding:.75rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:500;background:var(--surface)}
 .educ-body{display:none;padding:.75rem 1rem 1rem;font-size:13px;line-height:1.7;color:var(--text2);background:var(--bg2);border-top:0.5px solid var(--border)}
 .educ-body.open{display:block}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
-.modal-box{background:var(--surface);border-radius:var(--radius-lg);padding:1.5rem;width:400px;max-width:95vw;max-height:90vh;overflow-y:auto}
-@media(max-width:700px){
-  .two-col{grid-template-columns:1fr}
-  .grid-2,.grid-4{grid-template-columns:1fr 1fr}
-  .sidebar{width:56px}
-  .nav-item span,.logo-sub,.logo{display:none}
-}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.modal-box{background:var(--surface);border-radius:var(--radius-lg);padding:1.5rem;width:520px;max-width:100%;margin:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+.modal-header strong{font-size:15px}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text2);line-height:1}
+.pill-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border);background:var(--bg2);color:var(--text2);transition:all .15s;font-family:inherit}
+.pill.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* Taxa badges */
+.taxa-strip{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.taxa-chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:.35rem .75rem;font-size:12px;display:flex;align-items:center;gap:6px}
+.taxa-chip .val{font-weight:500;color:var(--gold)}
+.taxa-chip .lbl{color:var(--text3);font-size:11px}
+.taxa-loading{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px}
+/* Quitação antecipada */
+.quit-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:.5rem}
+.quit-table th{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;font-weight:500;padding:6px 8px;border-bottom:0.5px solid var(--border);text-align:left}
+.quit-table td{padding:5px 8px;border-bottom:0.5px solid var(--border)}
+.quit-table tr:last-child td{border-bottom:none}
+.quit-table tr.breakeven td{background:var(--bg-success);color:var(--green);font-weight:500}
+.quit-table tr.melhor td{background:var(--bg-warn);}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}.grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr 1fr}.sidebar{width:56px}.nav-item span,.logo-sub,.logo{display:none}}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 </head>
 <body>
-
 <div class="app">
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -114,7 +142,7 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
     <div class="nav-item" onclick="showPage('tributario',this)"><i class="ti ti-receipt-tax"></i><span>Tributário</span></div>
     <div class="nav-item" onclick="showPage('educacional',this)"><i class="ti ti-school"></i><span>Central Educacional</span></div>
   </nav>
-  <div style="padding:1rem;font-size:11px;color:var(--text3)">v2.0 · Dados locais</div>
+  <div style="padding:1rem;font-size:11px;color:var(--text3)">v4.0 · Dados locais</div>
 </aside>
 
 <main class="main">
@@ -122,7 +150,13 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <!-- MÓDULO 1: ANÁLISE -->
 <div id="page-analise" class="page active">
   <div class="page-title"><i class="ti ti-calculator" style="color:var(--gold)"></i> Análise de Leilão e House Flipping</div>
-  <div class="page-sub">Estrutura baseada na Projeção de Lucro do Leilão — preencha os dados para calcular a viabilidade</div>
+  <div class="page-sub">Estrutura baseada na Projeção de Lucro do Leilão</div>
+
+  <!-- Taxas BACEN -->
+  <div class="taxa-strip" id="taxa-strip">
+    <span class="taxa-loading"><i class="ti ti-refresh" style="font-size:14px"></i> Buscando taxas do Banco Central...</span>
+  </div>
+
   <div class="two-col">
     <div>
       <div class="tab-bar">
@@ -131,91 +165,65 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
         <button class="tab" onclick="switchTab('t-docs',this)">Documentação</button>
         <button class="tab" onclick="switchTab('t-venda',this)">Venda</button>
       </div>
-
       <div id="t-arr" class="tab-content active">
         <div class="card">
           <div class="card-title"><i class="ti ti-gavel"></i> Desembolso Pós-Arrematação</div>
-          <label>Valor da arrematação (R$)</label>
-          <input type="number" id="a_arr" value="72149.64" oninput="calcular()">
-          <label>Comissão do leiloeiro (%)</label>
-          <input type="number" id="a_comis_pct" value="0" step="0.5" oninput="calcular()">
-          <label>Honorário da assessoria (R$)</label>
-          <input type="number" id="a_honor" value="15000" oninput="calcular()">
+          <label>Valor da arrematação (R$)</label><input type="number" id="a_arr" value="72149.64" oninput="calcular()">
+          <label>Comissão do leiloeiro (%)</label><input type="number" id="a_comis_pct" value="0" step="0.5" oninput="calcular()">
+          <label>Honorário da assessoria (R$)</label><input type="number" id="a_honor" value="15000" oninput="calcular()">
         </div>
       </div>
-
       <div id="t-extra" class="tab-content">
         <div class="card">
-          <div class="card-title"><i class="ti ti-tools"></i> Desembolso Extra Pós-Arrematação</div>
-          <label>Diligência presencial (R$)</label>
-          <input type="number" id="e_dilig" value="400" oninput="calcular()">
-          <label>Desocupação / ajuda de mudança (R$)</label>
-          <input type="number" id="e_desoc" value="2500" oninput="calcular()">
-          <label>Reforma do imóvel (R$)</label>
-          <input type="number" id="e_reforma" value="12000" oninput="calcular()">
-          <label>Avaliação do engenheiro (R$)</label>
-          <input type="number" id="e_aval" value="750" oninput="calcular()">
-          <label>Outros (chaveiro, certidões, etc.) (R$)</label>
-          <input type="number" id="e_outros" value="350" oninput="calcular()">
-          <label>Reserva de contingência (R$)</label>
-          <input type="number" id="e_conting" value="0" oninput="calcular()">
+          <div class="card-title"><i class="ti ti-tools"></i> Desembolso Extra</div>
+          <label>Diligência presencial (R$)</label><input type="number" id="e_dilig" value="400" oninput="calcular()">
+          <label>Desocupação / mudança (R$)</label><input type="number" id="e_desoc" value="2500" oninput="calcular()">
+          <label>Reforma do imóvel (R$)</label><input type="number" id="e_reforma" value="12000" oninput="calcular()">
+          <label>Avaliação do engenheiro (R$)</label><input type="number" id="e_aval" value="750" oninput="calcular()">
+          <label>Outros custos (R$)</label><input type="number" id="e_outros" value="350" oninput="calcular()">
+          <label>Reserva de contingência (R$)</label><input type="number" id="e_conting" value="0" oninput="calcular()">
         </div>
       </div>
-
       <div id="t-docs" class="tab-content">
         <div class="card">
-          <div class="card-title"><i class="ti ti-file-certificate"></i> Documentação do Imóvel</div>
-          <label>Escritura pública (R$)</label>
-          <input type="number" id="d_escrit" value="1442.99" oninput="calcular()">
-          <label>ITBI (R$)</label>
-          <input type="number" id="d_itbi" value="1442.99" oninput="calcular()">
-          <label>Registro do imóvel (R$)</label>
-          <input type="number" id="d_reg" value="2164.49" oninput="calcular()">
+          <div class="card-title"><i class="ti ti-file-certificate"></i> Documentação</div>
+          <label>Escritura pública (R$)</label><input type="number" id="d_escrit" value="1442.99" oninput="calcular()">
+          <label>ITBI (R$)</label><input type="number" id="d_itbi" value="1442.99" oninput="calcular()">
+          <label>Registro do imóvel (R$)</label><input type="number" id="d_reg" value="2164.49" oninput="calcular()">
           <div class="section-label">Dívidas Pendentes</div>
-          <label>Dívida de IPTU (R$)</label>
-          <input type="number" id="d_iptu" value="311.21" oninput="calcular()">
-          <label>Dívida de condomínio (R$)</label>
-          <input type="number" id="d_cond" value="0" oninput="calcular()">
-          <label>Outras dívidas (R$)</label>
-          <input type="number" id="d_outras" value="0" oninput="calcular()">
+          <label>Dívida de IPTU (R$)</label><input type="number" id="d_iptu" value="311.21" oninput="calcular()">
+          <label>Dívida de condomínio (R$)</label><input type="number" id="d_cond" value="0" oninput="calcular()">
+          <label>Outras dívidas (R$)</label><input type="number" id="d_outras" value="0" oninput="calcular()">
         </div>
       </div>
-
       <div id="t-venda" class="tab-content">
         <div class="card">
-          <div class="card-title"><i class="ti ti-currency-dollar"></i> Venda do Imóvel</div>
-          <label>Valor estimado de venda (R$)</label>
-          <input type="number" id="v_venda" value="165000" oninput="calcular()">
-          <label>Prazo estimado de venda (meses)</label>
-          <input type="number" id="v_prazo" value="12" oninput="calcular()">
-          <label>Comissão do corretor (%)</label>
-          <input type="number" id="v_comis_pct" value="5" step="0.5" oninput="calcular()">
-          <label>Tráfego pago / marketing (R$)</label>
-          <input type="number" id="v_mkt" value="1000" oninput="calcular()">
-          <label>Documentação do comprador (R$)</label>
-          <input type="number" id="v_doc_comp" value="8000" oninput="calcular()">
-          <label>Outros custos de venda (R$)</label>
-          <input type="number" id="v_outros" value="0" oninput="calcular()">
+          <div class="card-title"><i class="ti ti-currency-dollar"></i> Venda</div>
+          <label>Valor estimado de venda (R$)</label><input type="number" id="v_venda" value="165000" oninput="calcular()">
+          <label>Prazo estimado de venda (meses)</label><input type="number" id="v_prazo" value="12" oninput="calcular()">
+          <label>Comissão do corretor (%)</label><input type="number" id="v_comis_pct" value="5" step="0.5" oninput="calcular()">
+          <label>Tráfego pago / marketing (R$)</label><input type="number" id="v_mkt" value="1000" oninput="calcular()">
+          <label>Documentação do comprador (R$)</label><input type="number" id="v_doc_comp" value="8000" oninput="calcular()">
+          <label>Outros custos de venda (R$)</label><input type="number" id="v_outros" value="0" oninput="calcular()">
         </div>
         <div class="card" style="margin-top:.75rem">
           <div class="card-title"><i class="ti ti-receipt-tax"></i> Imposto sobre o Ganho</div>
-          <label>Alíquota de ganho de capital (%)</label>
-          <input type="number" id="v_gc_pct" value="15" step="0.5" oninput="calcular()">
+          <label>Alíquota de ganho de capital (%)</label><input type="number" id="v_gc_pct" value="15" step="0.5" oninput="calcular()">
           <div style="font-size:11px;color:var(--text3);margin-top:5px">15% até R$5M · 17,5% até R$10M · 20% até R$30M · 22,5% acima</div>
         </div>
         <div class="card" style="margin-top:.75rem">
-          <div class="card-title"><i class="ti ti-chart-bar"></i> Benchmarks</div>
-          <label>CDI anual (%)</label>
-          <input type="number" id="b_cdi" value="10.65" step="0.1" oninput="calcular()">
-          <label>Selic anual (%)</label>
-          <input type="number" id="b_selic" value="10.75" step="0.1" oninput="calcular()">
-          <label>Poupança anual (%)</label>
-          <input type="number" id="b_poup" value="8.36" step="0.1" oninput="calcular()">
+          <div class="card-title"><i class="ti ti-chart-bar"></i> Benchmarks <span id="taxa-status" style="font-size:10px;color:var(--text3);font-weight:400;margin-left:4px"></span></div>
+          <label>CDI anual (%)</label><input type="number" id="b_cdi" value="10.65" step="0.1" oninput="calcular()">
+          <label>Selic anual (%)</label><input type="number" id="b_selic" value="10.75" step="0.1" oninput="calcular()">
+          <label>IPCA acumulado 12m (%)</label><input type="number" id="b_ipca" value="4.83" step="0.1" oninput="calcular()">
+          <label>Poupança anual (%)</label><input type="number" id="b_poup" value="6.17" step="0.1" oninput="calcular()">
+          <div style="margin-top:.5rem">
+            <button class="btn btn-outline btn-sm" onclick="buscarTaxas(true)"><i class="ti ti-refresh" style="font-size:13px"></i> Atualizar taxas agora</button>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="sticky-results">
+    <div class="sticky-top">
       <div class="card">
         <div class="card-title"><i class="ti ti-report-money"></i> Projeção de Lucro do Leilão</div>
         <div class="section-label">Composição do Investimento</div>
@@ -248,44 +256,46 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <!-- MÓDULO 3: EMPRÉSTIMO -->
 <div id="page-emprestimo" class="page">
   <div class="page-title"><i class="ti ti-credit-card" style="color:var(--gold)"></i> Viabilidade com Capital de Terceiros</div>
-  <div class="page-sub">Simule se vale a pena utilizar dinheiro emprestado para a operação</div>
+  <div class="page-sub">Simule o empréstimo, a quitação antecipada e o impacto no lucro da operação</div>
   <div class="two-col">
     <div>
       <div class="card">
         <div class="card-title"><i class="ti ti-building-bank"></i> Dados do Empréstimo</div>
-        <label>Valor do empréstimo (R$)</label>
-        <input type="number" id="emp_valor" value="100000" oninput="calcEmp()">
-        <label>Taxa mensal (%)</label>
-        <input type="number" id="emp_taxa" value="1.5" step="0.1" oninput="calcEmp()">
-        <label>Prazo (meses)</label>
-        <input type="number" id="emp_prazo" value="12" oninput="calcEmp()">
+        <label>Valor do empréstimo (R$)</label><input type="number" id="emp_valor" value="100000" oninput="calcEmp()">
+        <label>Taxa mensal (%)</label><input type="number" id="emp_taxa" value="1.5" step="0.1" oninput="calcEmp()">
+        <label>Prazo (meses)</label><input type="number" id="emp_prazo" value="12" oninput="calcEmp()">
         <label>Sistema de amortização</label>
         <select id="emp_sistema" onchange="calcEmp()">
           <option value="price">Price (parcelas fixas)</option>
           <option value="sac">SAC (amortização constante)</option>
         </select>
-        <label>IOF estimado (%)</label>
-        <input type="number" id="emp_iof" value="0.38" step="0.1" oninput="calcEmp()">
-        <label>Custos bancários (R$)</label>
-        <input type="number" id="emp_custos" value="500" oninput="calcEmp()">
-        <label>Carência inicial (meses)</label>
-        <input type="number" id="emp_carencia" value="0" oninput="calcEmp()">
+        <label>IOF estimado (%)</label><input type="number" id="emp_iof" value="0.38" step="0.1" oninput="calcEmp()">
+        <label>Custos bancários / tarifas (R$)</label><input type="number" id="emp_custos" value="500" oninput="calcEmp()">
       </div>
       <div class="card" style="margin-top:.75rem">
         <div class="card-title"><i class="ti ti-trending-up"></i> Operação Imobiliária</div>
-        <label>Lucro líquido projetado (R$)</label>
-        <input type="number" id="emp_lucro" value="29106" oninput="calcEmp()">
-        <label>Prazo total da operação (meses)</label>
-        <input type="number" id="emp_prazo_op" value="12" oninput="calcEmp()">
+        <label>Lucro líquido projetado da operação (R$)</label><input type="number" id="emp_lucro" value="29106" oninput="calcEmp()">
+        <label>Prazo total da operação (meses)</label><input type="number" id="emp_prazo_op" value="12" oninput="calcEmp()">
+      </div>
+      <div class="card" style="margin-top:.75rem">
+        <div class="card-title"><i class="ti ti-clock-bolt"></i> Simulador de Quitação Antecipada</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:.75rem;line-height:1.5">Simule o impacto de quitar o empréstimo em um mês específico — economizando juros futuros — e veja em qual mês a quitação antecipada maximiza o lucro da operação.</div>
+        <label>Quitar no mês (1 a prazo total)</label>
+        <input type="number" id="emp_quit_mes" value="6" min="1" oninput="calcEmp()">
+        <div id="quit_resultado" style="margin-top:.75rem"></div>
       </div>
     </div>
-    <div class="sticky-results">
+    <div class="sticky-top">
       <div class="card">
         <div class="card-title"><i class="ti ti-report-money"></i> Resultado do Financiamento</div>
         <div class="grid-2" style="gap:.5rem;margin-bottom:.75rem" id="emp_metricas"></div>
         <div class="divider"></div>
         <div class="section-label">Análise de Viabilidade</div>
         <div id="emp_analise"></div>
+        <div class="divider"></div>
+        <div class="section-label">Tabela de Quitação por Mês (breakeven)</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:.4rem">🟢 Melhor momento para quitar · 🔶 Mês simulado acima</div>
+        <div id="emp_quit_tabela" style="max-height:280px;overflow-y:auto"></div>
         <div class="divider"></div>
         <div class="section-label">Fluxo de Caixa (primeiros 6 meses)</div>
         <div id="emp_fluxo" style="font-size:13px"></div>
@@ -297,30 +307,36 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <!-- MÓDULO 4: PORTFÓLIO -->
 <div id="page-portfolio" class="page">
   <div class="page-title"><i class="ti ti-building-community" style="color:var(--gold)"></i> Portfólio de Imóveis</div>
-  <div class="page-sub">Gerencie todos os seus investimentos imobiliários</div>
-  <div class="grid-4" style="margin-bottom:1.25rem" id="port-metrics"></div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
-    <strong style="font-size:14px">Meus Imóveis</strong>
-    <button class="btn btn-gold" onclick="openModal()"><i class="ti ti-plus"></i> Adicionar</button>
+  <div class="page-sub">Financiamentos ativos, imóveis em análise e operações concluídas</div>
+  <div id="port-dashboard" class="grid-5" style="margin-bottom:1.25rem"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem">
+    <div class="pill-tabs" id="port-filtros">
+      <button class="pill active" onclick="filtrarPort('todos',this)">Todos</button>
+      <button class="pill" onclick="filtrarPort('financiado',this)">Financiado</button>
+      <button class="pill" onclick="filtrarPort('analise',this)">Em análise</button>
+      <button class="pill" onclick="filtrarPort('quitado',this)">Quitado</button>
+      <button class="pill" onclick="filtrarPort('vendido',this)">Vendido</button>
+    </div>
+    <button class="btn btn-gold" onclick="abrirModal()"><i class="ti ti-plus"></i> Adicionar Imóvel</button>
   </div>
   <div id="port-list"></div>
   <div id="port-modal" class="modal-overlay">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;margin-bottom:1rem">
-        <strong>Adicionar Imóvel</strong>
-        <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--text2)"><i class="ti ti-x"></i></button>
+      <div class="modal-header">
+        <strong id="modal-titulo">Adicionar Imóvel</strong>
+        <button class="modal-close" onclick="fecharModal()"><i class="ti ti-x"></i></button>
       </div>
-      <label>Nome / Endereço</label><input type="text" id="p_nome" placeholder="Ex: Apto Centro BH">
-      <label>Tipo</label>
-      <select id="p_tipo"><option>Leilão</option><option>House Flipping</option><option>Lote</option><option>Compra e Venda</option></select>
-      <label>Status</label>
-      <select id="p_status"><option>Em análise</option><option>Arrematado</option><option>Reformando</option><option>À venda</option><option>Vendido</option></select>
-      <label>Investimento total (R$)</label><input type="number" id="p_inv" placeholder="0">
-      <label>Valor de venda projetado (R$)</label><input type="number" id="p_proj" placeholder="0">
-      <label>Valor de venda realizado (R$)</label><input type="number" id="p_real" placeholder="0">
+      <label>Tipo de imóvel / operação</label>
+      <select id="p_tipo" onchange="renderFormTipo()">
+        <option value="financiado">Financiado / Parcelado (ainda pagando)</option>
+        <option value="analise">Em análise (interesse futuro)</option>
+        <option value="quitado">Quitado (pago à vista ou já quitado)</option>
+        <option value="vendido">Vendido (operação concluída)</option>
+      </select>
+      <div id="form-dinamico" style="margin-top:.75rem"></div>
       <div style="display:flex;gap:.75rem;margin-top:1.25rem">
-        <button class="btn btn-outline" style="flex:1" onclick="closeModal()">Cancelar</button>
-        <button class="btn btn-gold" style="flex:1" onclick="salvar()">Salvar</button>
+        <button class="btn btn-outline" style="flex:1" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-gold" style="flex:1" onclick="salvarImovel()"><i class="ti ti-check"></i> Salvar</button>
       </div>
     </div>
   </div>
@@ -330,21 +346,15 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <div id="page-tributario" class="page">
   <div class="page-title"><i class="ti ti-receipt-tax" style="color:var(--gold)"></i> Simulador Tributário e Societário</div>
   <div class="page-sub">Orientações educacionais — não substitui contador ou advogado tributarista</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+  <div class="grid-2">
     <div>
       <div class="card">
         <div class="card-title"><i class="ti ti-calculator"></i> Simulador de Ganho de Capital</div>
-        <label>Valor de aquisição (R$)</label>
-        <input type="number" id="gc_compra" value="72149.64" oninput="calcGC()">
-        <label>Custos agregáveis à base (R$)</label>
-        <input type="number" id="gc_custos" value="37361.68" oninput="calcGC()">
-        <label>Valor de venda (R$)</label>
-        <input type="number" id="gc_venda" value="165000" oninput="calcGC()">
+        <label>Valor de aquisição (R$)</label><input type="number" id="gc_compra" value="72149.64" oninput="calcGC()">
+        <label>Custos agregáveis à base (R$)</label><input type="number" id="gc_custos" value="37361.68" oninput="calcGC()">
+        <label>Valor de venda (R$)</label><input type="number" id="gc_venda" value="165000" oninput="calcGC()">
         <label>Isenção de imóvel único (até R$440k)?</label>
-        <select id="gc_isento" onchange="calcGC()">
-          <option value="nao">Não</option>
-          <option value="sim">Sim — único imóvel até R$ 440.000</option>
-        </select>
+        <select id="gc_isento" onchange="calcGC()"><option value="nao">Não</option><option value="sim">Sim — único imóvel até R$ 440.000</option></select>
         <div id="gc_resultado" style="margin-top:.75rem"></div>
       </div>
       <div class="card" style="margin-top:.75rem">
@@ -353,15 +363,15 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
         <div style="display:flex;gap:.5rem;margin-top:.75rem">
           <input type="text" id="s_nome" placeholder="Nome" style="flex:2">
           <input type="number" id="s_pct" placeholder="%" style="flex:1">
-          <button class="btn btn-gold" onclick="addSocio()"><i class="ti ti-plus"></i></button>
+          <button class="btn btn-gold btn-sm" onclick="addSocio()"><i class="ti ti-plus"></i></button>
         </div>
-        <div id="s_total" style="font-size:11px;margin-top:.5rem;color:var(--text3)"></div>
+        <div id="s_total" style="font-size:11px;margin-top:.5rem"></div>
       </div>
     </div>
     <div>
       <div class="card">
         <div class="card-title"><i class="ti ti-sitemap"></i> Comparativo de Estruturas</div>
-        <div style="font-size:13px;line-height:1.7;display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;flex-direction:column;gap:.5rem;font-size:13px">
           <div style="border:0.5px solid var(--border);border-radius:var(--radius);padding:.75rem">
             <strong style="font-size:12px;color:var(--gold)">👤 Pessoa Física</strong>
             <div style="color:var(--green);margin-top:.2rem;font-size:12px">✓ Simplicidade ✓ Sem custo de abertura ✓ Isenção até R$440k</div>
@@ -384,9 +394,7 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
           </div>
         </div>
       </div>
-      <div class="disclaimer">
-        <i class="ti ti-info-circle"></i> <strong>Aviso:</strong> Este módulo fornece orientações educacionais. Não substitui contador, advogado tributarista ou assessoria jurídica.
-      </div>
+      <div class="disclaimer"><i class="ti ti-info-circle"></i> <strong>Aviso:</strong> Orientações educacionais. Não substitui contador, advogado tributarista ou assessoria jurídica.</div>
     </div>
   </div>
 </div>
@@ -395,7 +403,7 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <div id="page-educacional" class="page">
   <div class="page-title"><i class="ti ti-school" style="color:var(--gold)"></i> Central Educacional</div>
   <div class="page-sub">Conceitos fundamentais do investimento imobiliário em linguagem simples</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+  <div class="grid-2">
     <div id="educ-lista"></div>
     <div class="card">
       <div class="card-title"><i class="ti ti-book"></i> Glossário Rápido</div>
@@ -405,11 +413,11 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
         <tr><td>ITBI</td><td>Imposto de transmissão de imóveis (2–4%)</td></tr>
         <tr><td>GCAP</td><td>Imposto sobre ganho de capital na venda</td></tr>
         <tr><td>CDI</td><td>Referência de renda fixa no Brasil</td></tr>
+        <tr><td>IPCA</td><td>Índice oficial de inflação do Brasil</td></tr>
         <tr><td>SPE</td><td>Sociedade de Propósito Específico</td></tr>
         <tr><td>CET</td><td>Custo Efetivo Total de um empréstimo</td></tr>
         <tr><td>SAC</td><td>Amortização constante — parcelas decrescentes</td></tr>
         <tr><td>Price</td><td>Parcelas iguais — juros maiores no início</td></tr>
-        <tr><td>Payback</td><td>Tempo para recuperar o capital investido</td></tr>
         <tr><td>Spread</td><td>Diferença entre retorno e custo do capital</td></tr>
         <tr><td>Due Diligence</td><td>Investigação jurídica e técnica do imóvel</td></tr>
       </table>
@@ -424,54 +432,110 @@ input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,
 <script>
 const fmt=v=>'R$ '+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmtPct=v=>v.toFixed(2)+'%';
-const n=id=>parseFloat(document.getElementById(id).value)||0;
+const n=id=>parseFloat(document.getElementById(id)?.value)||0;
+const g=id=>document.getElementById(id);
 
 function showPage(p,el){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');
+  g('page-'+p).classList.add('active');
   el.classList.add('active');
+  if(p==='portfolio') renderPortfolio();
 }
-
 function switchTab(id,el){
   const bar=el.closest('.tab-bar');
   bar.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   el.classList.add('active');
-  const pg=el.closest('.page');
-  pg.querySelectorAll('.tab-content.active').forEach(x=>x.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  el.closest('.page').querySelectorAll('.tab-content.active').forEach(x=>x.classList.remove('active'));
+  g(id).classList.add('active');
 }
 
+// ─── BACEN API ────────────────────────────────────────────────────
+// Proxy via allorigins para contornar CORS
+async function fetchBACEN(codigoSerie){
+  const url=`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${codigoSerie}/dados/ultimos/1?formato=json`;
+  const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  const r=await fetch(proxy);
+  const j=await r.json();
+  const data=JSON.parse(j.contents);
+  return parseFloat(data[0].valor);
+}
+
+async function buscarTaxas(forcar=false){
+  const cacheKey='flip_taxas_cache';
+  const cacheTTL=3*60*60*1000; // 3 horas
+  const cache=JSON.parse(localStorage.getItem(cacheKey)||'null');
+  if(!forcar&&cache&&(Date.now()-cache.ts)<cacheTTL){
+    aplicarTaxas(cache.taxas,cache.data,'cache');
+    return;
+  }
+  g('taxa-strip').innerHTML='<span class="taxa-loading"><i class="ti ti-refresh" style="font-size:14px"></i> Buscando taxas do Banco Central...</span>';
+  try{
+    // 12: Selic diária | 4389: CDI diário | 433: IPCA mensal | 196: Poupança mensal
+    const [selicDia,cdiDia,ipcaMes,poupMes]=await Promise.all([
+      fetchBACEN(11),   // Selic acumulada mês (% a.a. equivalente)
+      fetchBACEN(4389), // CDI diário
+      fetchBACEN(433),  // IPCA mensal
+      fetchBACEN(196),  // Poupança mensal
+    ]);
+    // CDI: taxa diária → anual: (1+d/100)^252 - 1
+    const cdiAnual=((Math.pow(1+cdiDia/100,252))-1)*100;
+    // Selic: já vem em % a.a.
+    const selicAnual=selicDia;
+    // IPCA: mensal → anual: (1+m/100)^12 - 1
+    const ipcaAnual=((Math.pow(1+ipcaMes/100,12))-1)*100;
+    // Poupança: mensal → anual
+    const poupAnual=((Math.pow(1+poupMes/100,12))-1)*100;
+    const taxas={cdi:cdiAnual,selic:selicAnual,ipca:ipcaAnual,poup:poupAnual};
+    const dataStr=new Date().toLocaleString('pt-BR');
+    localStorage.setItem(cacheKey,JSON.stringify({taxas,data:dataStr,ts:Date.now()}));
+    aplicarTaxas(taxas,dataStr,'live');
+  }catch(e){
+    g('taxa-strip').innerHTML='<span class="taxa-loading" style="color:var(--amber)"><i class="ti ti-alert-triangle" style="font-size:14px"></i> Não foi possível buscar as taxas do BACEN. Edite manualmente na aba Venda.</span>';
+  }
+}
+
+function aplicarTaxas(taxas,dataStr,origem){
+  if(g('b_cdi'))g('b_cdi').value=taxas.cdi.toFixed(2);
+  if(g('b_selic'))g('b_selic').value=taxas.selic.toFixed(2);
+  if(g('b_ipca'))g('b_ipca').value=taxas.ipca.toFixed(2);
+  if(g('b_poup'))g('b_poup').value=taxas.poup.toFixed(2);
+  const badge=origem==='live'?'badge-green':'badge-gray';
+  const icon=origem==='live'?'ti-circle-check':'ti-clock';
+  g('taxa-strip').innerHTML=`
+    <span class="taxa-chip"><span class="lbl">CDI</span><span class="val">${fmtPct(taxas.cdi)} a.a.</span></span>
+    <span class="taxa-chip"><span class="lbl">Selic</span><span class="val">${fmtPct(taxas.selic)} a.a.</span></span>
+    <span class="taxa-chip"><span class="lbl">IPCA 12m</span><span class="val">${fmtPct(taxas.ipca)}</span></span>
+    <span class="taxa-chip"><span class="lbl">Poupança</span><span class="val">${fmtPct(taxas.poup)} a.a.</span></span>
+    <span class="badge ${badge}" style="font-size:11px"><i class="ti ${icon}" style="font-size:12px"></i> ${origem==='live'?'Ao vivo':'Cache'} · ${dataStr}</span>
+  `;
+  if(g('taxa-status'))g('taxa-status').textContent=`· Atualizado ${dataStr}`;
+  calcular();
+}
+
+// ─── ANÁLISE FLIP ─────────────────────────────────────────────────
 function calcular(){
-  const arr=n('a_arr');
-  const comisLeil=arr*n('a_comis_pct')/100;
-  const honor=n('a_honor');
-  const sub1=arr+comisLeil+honor;
-  const dilig=n('e_dilig'),desoc=n('e_desoc'),reforma=n('e_reforma'),aval=n('e_aval'),outE=n('e_outros'),conting=n('e_conting');
-  const sub2=dilig+desoc+reforma+aval+outE+conting;
-  const escrit=n('d_escrit'),itbi=n('d_itbi'),reg=n('d_reg'),iptu=n('d_iptu'),cond=n('d_cond'),outD=n('d_outras');
-  const sub3=escrit+itbi+reg+iptu+cond+outD;
+  const arr=n('a_arr'),comisLeil=arr*n('a_comis_pct')/100,honor=n('a_honor'),sub1=arr+comisLeil+honor;
+  const dilig=n('e_dilig'),desoc=n('e_desoc'),reforma=n('e_reforma'),aval=n('e_aval'),outE=n('e_outros'),conting=n('e_conting'),sub2=dilig+desoc+reforma+aval+outE+conting;
+  const escrit=n('d_escrit'),itbi=n('d_itbi'),reg=n('d_reg'),iptu=n('d_iptu'),cond=n('d_cond'),outD=n('d_outras'),sub3=escrit+itbi+reg+iptu+cond+outD;
   const investTotal=sub1+sub2+sub3;
   const venda=n('v_venda'),prazo=n('v_prazo')||12;
   const comisImobi=venda*n('v_comis_pct')/100,mkt=n('v_mkt'),docComp=n('v_doc_comp'),outV=n('v_outros');
   const custosVenda=comisImobi+mkt+docComp+outV;
   const lucroBruto=venda-custosVenda-investTotal;
-  const baseGC=Math.max(0,lucroBruto);
-  const impGC=baseGC*n('v_gc_pct')/100;
+  const impGC=Math.max(0,lucroBruto)*n('v_gc_pct')/100;
   const lucroLiq=lucroBruto-impGC;
   const roi=investTotal>0?(lucroLiq/investTotal)*100:0;
   const roiAnual=((Math.pow(1+roi/100,12/prazo))-1)*100;
   const margem=venda>0?(lucroLiq/venda)*100:0;
-  const cdi=n('b_cdi'),selic=n('b_selic'),poup=n('b_poup');
+  const cdi=n('b_cdi'),selic=n('b_selic'),ipca=n('b_ipca'),poup=n('b_poup');
   const cdiVal=investTotal*(Math.pow(1+cdi/100,prazo/12)-1);
   const selicVal=investTotal*(Math.pow(1+selic/100,prazo/12)-1);
   const poupVal=investTotal*(Math.pow(1+poup/100,prazo/12)-1);
+  const ipcaVal=investTotal*(Math.pow(1+ipca/100,prazo/12)-1);
   const roiRelCDI=cdiVal>0?(lucroLiq/cdiVal)*100:0;
-  const minBE=investTotal+custosVenda;
-  const minCDI=investTotal+cdiVal+custosVenda;
-  const minSelic=investTotal+selicVal+custosVenda;
 
-  document.getElementById('r_blocos').innerHTML=`
+  g('r_blocos').innerHTML=`
     <div class="subtotal-row"><span>Pós-arrematação</span><strong>${fmt(sub1)}</strong></div>
     <div class="subtotal-row"><span>Extras pós-arrematação</span><strong>${fmt(sub2)}</strong></div>
     <div class="subtotal-row"><span>Documentação</span><strong>${fmt(sub3)}</strong></div>
@@ -479,38 +543,25 @@ function calcular(){
       <span>Investimento Total Realizado</span><strong>${fmt(investTotal)}</strong>
     </div>
     <div class="stat-row"><span>Custos de venda</span><span>${fmt(custosVenda)}</span></div>
-    <div class="stat-row"><span>IR sobre ganho de capital</span><span style="color:var(--red)">${fmt(impGC)}</span></div>
-  `;
+    <div class="stat-row"><span>IR sobre ganho de capital</span><span style="color:var(--red)">${fmt(impGC)}</span></div>`;
 
   const mc=(l,v,s,c)=>`<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value ${c||''}">${v}</div>${s?`<div class="metric-sub">${s}</div>`:''}</div>`;
-  document.getElementById('r_metricas').innerHTML=
-    mc('Lucro Líquido',fmt(lucroLiq),'já descontando IR',lucroLiq>=0?'green':'red')+
-    mc('ROI',fmtPct(roi),'sobre investimento',roi>=15?'green':roi>=8?'amber':'red')+
-    mc('ROI Anualizado',fmtPct(roiAnual),prazo+' meses',roiAnual>=12?'green':roiAnual>=6?'amber':'red')+
-    mc('Margem Líquida',fmtPct(margem),'sobre venda',margem>=15?'green':margem>=8?'amber':'red');
+  g('r_metricas').innerHTML=mc('Lucro Líquido',fmt(lucroLiq),'já descontando IR',lucroLiq>=0?'green':'red')+mc('ROI',fmtPct(roi),'sobre investimento',roi>=15?'green':roi>=8?'amber':'red')+mc('ROI Anualizado',fmtPct(roiAnual),prazo+' meses',roiAnual>=12?'green':roiAnual>=6?'amber':'red')+mc('Margem Líquida',fmtPct(margem),'sobre venda',margem>=15?'green':margem>=8?'amber':'red');
 
-  document.getElementById('r_minimos').innerHTML=`
-    <div class="stat-row"><span>Break-even (sem lucro)</span><strong>${fmt(minBE)}</strong></div>
-    <div class="stat-row"><span>Para superar CDI (${fmtPct(cdi)}/a)</span><strong>${fmt(minCDI)}</strong></div>
-    <div class="stat-row"><span>Para superar Selic (${fmtPct(selic)}/a)</span><strong>${fmt(minSelic)}</strong></div>
-  `;
+  g('r_minimos').innerHTML=`
+    <div class="stat-row"><span>Break-even (sem lucro)</span><strong>${fmt(investTotal+custosVenda)}</strong></div>
+    <div class="stat-row"><span>Para superar CDI (${fmtPct(cdi)}/a)</span><strong>${fmt(investTotal+cdiVal+custosVenda)}</strong></div>
+    <div class="stat-row"><span>Para superar Selic (${fmtPct(selic)}/a)</span><strong>${fmt(investTotal+selicVal+custosVenda)}</strong></div>
+    <div class="stat-row"><span>Para superar IPCA (${fmtPct(ipca)}/a)</span><strong>${fmt(investTotal+ipcaVal+custosVenda)}</strong></div>`;
 
-  const bRow=(label,valRef,pctRef,ganhou)=>`<div class="benchmark-row">
-    <span>${label}</span>
-    <span style="color:var(--text2)">${fmt(valRef)}</span>
-    <span style="color:var(--text2)">${fmtPct(pctRef*(prazo/12))}</span>
-    <span class="badge ${ganhou?'badge-green':'badge-amber'}">${ganhou?'✓ Ganhou':'Perdeu'}</span>
-  </div>`;
-
-  document.getElementById('r_benchmarks').innerHTML=`
-    <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:.4rem;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;padding:.2rem 0;border-bottom:0.5px solid var(--border);margin-bottom:.2rem">
-      <span>Referência</span><span>Valor</span><span>Taxa</span><span></span>
-    </div>
+  const bRow=(l,vr,pr,ganhou)=>`<div class="benchmark-row"><span>${l}</span><span style="color:var(--text2)">${fmt(vr)}</span><span style="color:var(--text2)">${fmtPct(pr*(prazo/12))}</span><span class="badge ${ganhou?'badge-green':'badge-amber'}">${ganhou?'✓':'✗'}</span></div>`;
+  g('r_benchmarks').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:.4rem;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;padding:.2rem 0;border-bottom:0.5px solid var(--border);margin-bottom:.2rem"><span>Referência</span><span>Valor</span><span>Taxa</span><span></span></div>
     ${bRow('Poupança',poupVal,poup,lucroLiq>poupVal)}
+    ${bRow('IPCA',ipcaVal,ipca,lucroLiq>ipcaVal)}
     ${bRow('CDB 100% CDI',cdiVal,cdi,lucroLiq>cdiVal)}
     ${bRow('Tesouro Selic',selicVal,selic,lucroLiq>selicVal)}
-    <div style="font-size:11px;color:var(--text3);margin-top:.4rem">Operação equivale a ${fmtPct(roiRelCDI)} do CDI no período</div>
-  `;
+    <div style="font-size:11px;color:var(--text3);margin-top:.4rem">Operação equivale a ${fmtPct(roiRelCDI)} do CDI no período</div>`;
 
   let score=50;
   if(roiAnual>cdi*1.5)score+=20;else if(roiAnual>cdi)score+=10;else if(roiAnual<cdi)score-=15;
@@ -522,151 +573,377 @@ function calcular(){
   score=Math.max(0,Math.min(100,Math.round(score)));
   const lblScore=score>=75?'Excelente':score>=55?'Boa':score>=35?'Atenção':'Reprovada';
   const corScore=score>=75?'#3B6D11':score>=55?'#C9963A':score>=35?'#854F0B':'#A32D2D';
-  document.getElementById('score-num').textContent=score+'/100';
-  document.getElementById('score-label').textContent=lblScore;
-  document.getElementById('score-fill').style.cssText=`width:${score}%;background:${corScore}`;
+  g('score-num').textContent=score+'/100';g('score-label').textContent=lblScore;
+  g('score-fill').style.cssText=`width:${score}%;background:${corScore}`;
 
   const alertas=[];
-  if(pctRef>40)alertas.push({t:'warning',m:`Reforma excessiva: ${fmtPct(pctRef)} do investimento total`});
+  if(pctRef>40)alertas.push({t:'warning',m:`Reforma excessiva: ${fmtPct(pctRef)} do investimento`});
   if(margem<10&&margem>0)alertas.push({t:'warning',m:'Margem abaixo de 10% — operação apertada'});
   if(lucroLiq<cdiVal&&lucroLiq>0)alertas.push({t:'warning',m:`Lucro (${fmt(lucroLiq)}) abaixo do CDI (${fmt(cdiVal)}) no mesmo prazo`});
-  if(prazo>18)alertas.push({t:'warning',m:`Prazo de ${prazo} meses eleva o custo de oportunidade`});
+  if(prazo>18)alertas.push({t:'warning',m:`Prazo de ${prazo} meses eleva custo de oportunidade`});
   if(lucroLiq<0)alertas.push({t:'danger',m:'Operação com prejuízo — revisar custos ou preço de venda'});
   if(conting/investTotal<0.03&&investTotal>0)alertas.push({t:'info',m:'Contingência abaixo de 3% — risco de custos ocultos'});
-  if(lucroLiq>0&&roiAnual>cdi&&score>=55)alertas.push({t:'success',m:`ROI de ${fmtPct(roiAnual)}/a supera CDI — operação aprovada para análise avançada`});
-
-  let alertHtml='';
-  alertas.forEach(a=>{
-    const cls={success:'alert-success',warning:'alert-warning',danger:'alert-danger',info:'alert-info'}[a.t];
-    const ic={success:'ti-check',warning:'ti-alert-triangle',danger:'ti-alert-circle',info:'ti-info-circle'}[a.t];
-    alertHtml+=`<div class="alert ${cls}"><i class="ti ${ic}"></i><span>${a.m}</span></div>`;
-  });
-  document.getElementById('r_alertas').innerHTML=alertHtml||'<div style="font-size:12px;color:var(--text3)">Preencha os dados para ver alertas</div>';
+  if(lucroLiq>0&&roiAnual>cdi&&score>=55)alertas.push({t:'success',m:`ROI de ${fmtPct(roiAnual)}/a supera CDI — operação aprovada`});
+  let ah='';
+  alertas.forEach(a=>{const cls={success:'alert-success',warning:'alert-warning',danger:'alert-danger',info:'alert-info'}[a.t];const ic={success:'ti-check',warning:'ti-alert-triangle',danger:'ti-alert-circle',info:'ti-info-circle'}[a.t];ah+=`<div class="alert ${cls}"><i class="ti ${ic}"></i><span>${a.m}</span></div>`;});
+  g('r_alertas').innerHTML=ah||'<div style="font-size:12px;color:var(--text3)">Preencha os dados para ver alertas</div>';
 
   let cls2,titulo,texto;
-  if(lucroLiq>=0&&roiAnual>=cdi&&score>=55){cls2='comprar';titulo='✅ Comprar';texto=`Lucro líquido de ${fmt(lucroLiq)} · ROI anualizado de ${fmtPct(roiAnual)} supera CDI · Score ${score}/100`;}
-  else if(lucroLiq>=0&&score>=35){cls2='analisar';titulo='⚠️ Analisar Melhor';texto=`Viável mas com pontos de atenção · ROI de ${fmtPct(roiAnual)} vs CDI ${fmtPct(cdi)} · Revisar custos e prazo`;}
-  else{cls2='nao-comprar';titulo='❌ Não Comprar';texto=`${lucroLiq<0?'Prejuízo de '+fmt(Math.abs(lucroLiq))+' nas condições atuais. ':''}Score ${score}/100 · Retorno não compensa o risco`;}
-  document.getElementById('r_parecer').innerHTML=`
-    <div class="parecer ${cls2}"><div class="parecer-title">${titulo}</div><div class="parecer-text">${texto}</div></div>
-    <div class="disclaimer"><i class="ti ti-info-circle"></i> Caráter educacional. Não substitui assessor financeiro, corretor ou advogado.</div>
-  `;
+  if(lucroLiq>=0&&roiAnual>=cdi&&score>=55){cls2='comprar';titulo='✅ Comprar';texto=`Lucro líquido de ${fmt(lucroLiq)} · ROI de ${fmtPct(roiAnual)}/a supera CDI · Score ${score}/100`;}
+  else if(lucroLiq>=0&&score>=35){cls2='analisar';titulo='⚠️ Analisar Melhor';texto=`Viável mas com pontos de atenção · ROI de ${fmtPct(roiAnual)}/a vs CDI ${fmtPct(cdi)}/a`;}
+  else{cls2='nao-comprar';titulo='❌ Não Comprar';texto=`${lucroLiq<0?'Prejuízo de '+fmt(Math.abs(lucroLiq))+'. ':''}Score ${score}/100 · Retorno não compensa o risco`;}
+  g('r_parecer').innerHTML=`<div class="parecer ${cls2}"><div class="parecer-title">${titulo}</div><div class="parecer-text">${texto}</div></div><div class="disclaimer"><i class="ti ti-info-circle"></i> Caráter educacional. Não substitui assessor financeiro, corretor ou advogado.</div>`;
+}
+
+// ─── EMPRÉSTIMO + QUITAÇÃO ANTECIPADA ────────────────────────────
+function gerarFluxoPrice(P,taxa,prazo){
+  const parcela=P*(taxa*Math.pow(1+taxa,prazo))/(Math.pow(1+taxa,prazo)-1);
+  let saldo=P;const fluxo=[];
+  for(let i=1;i<=prazo;i++){
+    const juros=saldo*taxa;const amort=parcela-juros;
+    saldo=Math.max(0,saldo-amort);
+    fluxo.push({mes:i,parcela,juros,amort,saldo});
+  }
+  return{parcela,fluxo};
+}
+function gerarFluxoSAC(P,taxa,prazo){
+  const amort=P/prazo;let saldo=P;const fluxo=[];
+  for(let i=1;i<=prazo;i++){
+    const juros=saldo*taxa;const parcela=amort+juros;
+    saldo=Math.max(0,saldo-amort);
+    fluxo.push({mes:i,parcela,juros,amort,saldo});
+  }
+  return{parcela:fluxo[0]?.parcela||0,fluxo};
+}
+// Valor de quitação antecipada no mês M = VP das parcelas restantes descontadas pela taxa
+function calcQuitacao(fluxo,mesQuitar,taxa){
+  const restantes=fluxo.slice(mesQuitar);
+  if(!restantes.length)return 0;
+  // VP das parcelas restantes
+  return restantes.reduce((acc,f,i)=>acc+f.parcela/Math.pow(1+taxa,i+1),0);
+}
+// Juros pagos até o mês M
+function jurosPagosAte(fluxo,mes){
+  return fluxo.slice(0,mes).reduce((a,f)=>a+f.juros,0);
 }
 
 function calcEmp(){
   const P=n('emp_valor'),taxa=n('emp_taxa')/100,prazo=n('emp_prazo');
-  const iof=P*n('emp_iof')/100,custos=n('emp_custos'),lucroOp=n('emp_lucro');
-  const sistema=document.getElementById('emp_sistema').value;
-  let parcela=0,jurosTot=0,totalPago=0;
-  if(sistema==='price'&&taxa>0){parcela=P*(taxa*Math.pow(1+taxa,prazo))/(Math.pow(1+taxa,prazo)-1);totalPago=parcela*prazo;jurosTot=totalPago-P;}
-  else{const am=P/prazo;let s=P;for(let i=1;i<=prazo;i++){jurosTot+=s*taxa;s-=am;}totalPago=P+jurosTot;parcela=P/prazo+P*taxa;}
-  totalPago+=iof+custos;jurosTot+=iof+custos;
-  const cet=(taxa*1.2)*100,spread=lucroOp-jurosTot,roiReal=P>0?(spread/P)*100:0;
+  const iof=P*n('emp_iof')/100,custos=n('emp_custos');
+  const lucroOp=n('emp_lucro');
+  const mesQuitar=Math.min(Math.max(1,parseInt(g('emp_quit_mes')?.value)||6),prazo);
+  const sistema=g('emp_sistema').value;
+
+  if(!P||!taxa||!prazo){return;}
+
+  const {parcela,fluxo}=sistema==='price'?gerarFluxoPrice(P,taxa,prazo):gerarFluxoSAC(P,taxa,prazo);
+  const totalPago=fluxo.reduce((a,f)=>a+f.parcela,0)+iof+custos;
+  const jurosTot=fluxo.reduce((a,f)=>a+f.juros,0)+iof+custos;
+  const cet=(taxa*1.2)*100;
+  const spread=lucroOp-jurosTot;
+  const roiReal=P>0?(spread/P)*100:0;
+
   const mc=(l,v,c)=>`<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value ${c||''}">${v}</div></div>`;
-  document.getElementById('emp_metricas').innerHTML=mc('Parcela',fmt(parcela))+mc('Juros Totais',fmt(jurosTot),'red')+mc('Total Pago',fmt(totalPago))+mc('CET Est.',fmtPct(cet)+'/mês','amber');
+  g('emp_metricas').innerHTML=mc('1ª Parcela',fmt(parcela))+mc('Juros Totais',fmt(jurosTot),'red')+mc('Total Pago',fmt(totalPago))+mc('CET Est.',fmtPct(cet)+'/mês','amber');
+
   let acls='alert-success',aic='ti-check',amsg;
-  if(spread<0){acls='alert-danger';aic='ti-alert-circle';amsg=`Juros (${fmt(jurosTot)}) superam lucro projetado (${fmt(lucroOp)}) — operação destrói valor`;}
+  if(spread<0){acls='alert-danger';aic='ti-alert-circle';amsg=`Juros (${fmt(jurosTot)}) superam lucro (${fmt(lucroOp)}) — operação destrói valor`;}
   else if(spread<P*0.05){acls='alert-warning';aic='ti-alert-triangle';amsg='Spread apertado — margem de segurança baixa';}
-  else{amsg=`Spread positivo de ${fmt(spread)} — operação potencialmente vantajosa com capital de terceiros`;}
-  document.getElementById('emp_analise').innerHTML=`
-    <div class="alert ${acls}"><i class="ti ${aic}"></i><span>${amsg}</span></div>
+  else{amsg=`Spread positivo de ${fmt(spread)} — operação potencialmente vantajosa`;}
+  g('emp_analise').innerHTML=`<div class="alert ${acls}"><i class="ti ${aic}"></i><span>${amsg}</span></div>
     <div class="stat-row"><span>Lucro da operação</span><strong>${fmt(lucroOp)}</strong></div>
-    <div class="stat-row"><span>Custo do capital</span><strong class="red">${fmt(jurosTot)}</strong></div>
+    <div class="stat-row"><span>Custo total do capital</span><strong class="red">${fmt(jurosTot)}</strong></div>
     <div class="stat-row"><span>Spread financeiro</span><strong class="${spread>=0?'green':'red'}">${spread>=0?'+':''}${fmt(spread)}</strong></div>
-    <div class="stat-row"><span>ROI real (após juros)</span><strong>${fmtPct(roiReal)}</strong></div>
-  `;
-  let fl='<table class="table-simple"><tr><th>Mês</th><th>Parcela</th><th>Saldo Dev.</th></tr>';
-  let s2=P;
-  for(let i=1;i<=Math.min(6,prazo);i++){const j=s2*taxa;const a=sistema==='price'?parcela-j:P/prazo;s2=Math.max(0,s2-a);fl+=`<tr><td>${i}</td><td>${fmt(parcela)}</td><td>${fmt(s2)}</td></tr>`;}
-  if(prazo>6)fl+=`<tr><td colspan="3" style="text-align:center;color:var(--text3);font-style:italic">+ ${prazo-6} meses restantes</td></tr>`;
-  document.getElementById('emp_fluxo').innerHTML=fl+'</table>';
-}
+    <div class="stat-row"><span>ROI real (após juros)</span><strong>${fmtPct(roiReal)}</strong></div>`;
 
-let imoveis=JSON.parse(localStorage.getItem('flip_v2_imoveis')||'[]');
-function renderPortfolio(){
-  const inv=imoveis.reduce((a,b)=>a+b.inv,0);
-  const lr=imoveis.filter(i=>i.status==='Vendido').reduce((a,b)=>a+(b.real-b.inv),0);
-  const lp=imoveis.filter(i=>i.status!=='Vendido').reduce((a,b)=>a+(b.proj-b.inv),0);
-  const er=imoveis.filter(i=>!['Vendido','Em análise'].includes(i.status)).reduce((a,b)=>a+b.inv,0);
-  const mc=(l,v,c)=>`<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value ${c}">${fmt(v)}</div></div>`;
-  document.getElementById('port-metrics').innerHTML=mc('Capital Investido',inv,'gold')+mc('Em Risco Ativo',er,'amber')+mc('Lucro Realizado',lr,'green')+mc('Lucro Projetado',lp,'');
-  if(!imoveis.length){document.getElementById('port-list').innerHTML=`<div style="text-align:center;padding:3rem;color:var(--text3)"><i class="ti ti-building-off" style="font-size:48px"></i><div style="margin-top:.75rem">Nenhum imóvel cadastrado</div><div style="font-size:13px;margin-top:.25rem">Clique em "Adicionar" para começar</div></div>`;return;}
-  const sc={'Em análise':'badge-blue',Arrematado:'badge-amber',Reformando:'badge-amber','À venda':'badge-blue',Vendido:'badge-green'};
-  let h='<div class="grid-2">';
-  imoveis.forEach((im,i)=>{
-    const lucro=im.status==='Vendido'?im.real-im.inv:im.proj-im.inv;
-    const roi=im.inv>0?lucro/im.inv*100:0;
-    const pct=im.proj>0?Math.min(100,im.inv/im.proj*100):0;
-    h+=`<div class="portfolio-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
-        <div><strong style="font-size:13px">${im.nome}</strong><div style="font-size:11px;color:var(--text3)">${im.tipo}</div></div>
-        <div style="display:flex;gap:.4rem;align-items:center"><span class="badge ${sc[im.status]||'badge-blue'}">${im.status}</span><button onclick="remIm(${i})" style="background:none;border:none;cursor:pointer;color:var(--text3)"><i class="ti ti-trash" style="font-size:14px"></i></button></div>
+  // TABELA DE QUITAÇÃO POR MÊS
+  let melhorMes=-1,melhorLucro=-Infinity;
+  const linhas=[];
+  for(let m=1;m<=prazo;m++){
+    const vq=calcQuitacao(fluxo,m,taxa);
+    const jp=jurosPagosAte(fluxo,m);
+    const custoTotal=jp+vq+iof+custos;
+    const lucroNeto=lucroOp-custoTotal;
+    if(lucroNeto>melhorLucro){melhorLucro=lucroNeto;melhorMes=m;}
+    linhas.push({m,vq,jp,custoTotal,lucroNeto});
+  }
+  // Quitação no mês escolhido
+  const lSimul=linhas[mesQuitar-1];
+  if(lSimul){
+    const economia=jurosTot-(lSimul.jp+lSimul.vq+iof+custos);
+    g('quit_resultado').innerHTML=`
+      <div class="sim-box">
+        <div class="sim-box-title"><i class="ti ti-calculator" style="font-size:13px"></i> Quitação no mês ${mesQuitar}</div>
+        <div class="stat-row"><span>Valor para quitar agora</span><strong class="amber">${fmt(lSimul.vq)}</strong></div>
+        <div class="stat-row"><span>Juros já pagos até aqui</span><strong>${fmt(lSimul.jp)}</strong></div>
+        <div class="stat-row"><span>Custo total do capital</span><strong class="red">${fmt(lSimul.custoTotal)}</strong></div>
+        <div class="stat-row"><span>Economia vs pagar até o fim</span><strong class="green">${fmt(economia)}</strong></div>
+        <div class="stat-row"><span>Lucro líquido da operação</span><strong class="${lSimul.lucroNeto>=0?'green':'red'}">${fmt(lSimul.lucroNeto)}</strong></div>
       </div>
-      <div class="stat-row"><span>Investimento</span><strong>${fmt(im.inv)}</strong></div>
-      <div class="stat-row"><span>Projeção de venda</span><strong>${fmt(im.proj)}</strong></div>
-      <div class="stat-row"><span>Lucro ${im.status==='Vendido'?'realizado':'projetado'}</span><strong class="${lucro>=0?'green':'red'}">${fmt(lucro)}</strong></div>
-      <div class="stat-row"><span>ROI</span><strong>${fmtPct(roi)}</strong></div>
-      <div class="progress-row"><span>Custo/Venda</span><span>${fmtPct(pct)}</span></div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    </div>`;
-  });
-  document.getElementById('port-list').innerHTML=h+'</div>';
-}
-function openModal(){document.getElementById('port-modal').style.display='flex'}
-function closeModal(){document.getElementById('port-modal').style.display='none'}
-function salvar(){
-  imoveis.push({nome:document.getElementById('p_nome').value||'Imóvel sem nome',tipo:document.getElementById('p_tipo').value,status:document.getElementById('p_status').value,inv:parseFloat(document.getElementById('p_inv').value)||0,proj:parseFloat(document.getElementById('p_proj').value)||0,real:parseFloat(document.getElementById('p_real').value)||0});
-  localStorage.setItem('flip_v2_imoveis',JSON.stringify(imoveis));closeModal();renderPortfolio();
-}
-function remIm(i){if(confirm('Remover este imóvel?')){imoveis.splice(i,1);localStorage.setItem('flip_v2_imoveis',JSON.stringify(imoveis));renderPortfolio();}}
+      ${melhorMes>0?`<div class="sim-box-warn" style="margin-top:.5rem"><div class="sim-box-warn-title"><i class="ti ti-star" style="font-size:13px"></i> Melhor mês para quitar: mês ${melhorMes}</div><div style="font-size:12px;color:var(--text2)">Quitar no mês ${melhorMes} maximiza o lucro da operação em ${fmt(melhorLucro)}</div></div>`:''}`;
+  }
 
-let socios=[];
-function addSocio(){
-  const nome=document.getElementById('s_nome').value,pct=parseFloat(document.getElementById('s_pct').value);
-  if(!nome||!pct)return;socios.push({nome,pct});
-  document.getElementById('s_nome').value='';document.getElementById('s_pct').value='';renderSocios();
+  // Tabela completa
+  let tbl=`<table class="quit-table"><tr><th>Mês</th><th>Val. Quitação</th><th>Custo Total</th><th>Lucro Líq.</th></tr>`;
+  linhas.forEach(l=>{
+    const isMelhor=l.m===melhorMes;
+    const isSimul=l.m===mesQuitar;
+    const tr=isMelhor?'class="breakeven"':isSimul?'class="melhor"':'';
+    tbl+=`<tr ${tr}><td>${l.m}${isMelhor?' ⭐':isSimul?' 🔶':''}</td><td>${fmt(l.vq)}</td><td>${fmt(l.custoTotal)}</td><td style="color:${l.lucroNeto>=0?'var(--green)':'var(--red)'}">${fmt(l.lucroNeto)}</td></tr>`;
+  });
+  tbl+='</table>';
+  g('emp_quit_tabela').innerHTML=tbl;
+
+  // Fluxo primeiros meses
+  let fl=`<table class="table-simple"><tr><th>Mês</th><th>Parcela</th><th>Juros</th><th>Saldo Dev.</th></tr>`;
+  fluxo.slice(0,6).forEach(f=>{fl+=`<tr><td>${f.mes}</td><td>${fmt(f.parcela)}</td><td>${fmt(f.juros)}</td><td>${fmt(f.saldo)}</td></tr>`;});
+  if(prazo>6)fl+=`<tr><td colspan="4" style="text-align:center;color:var(--text3);font-style:italic">+ ${prazo-6} meses restantes</td></tr>`;
+  g('emp_fluxo').innerHTML=fl+'</table>';
 }
+
+// ─── PORTFÓLIO ────────────────────────────────────────────────────
+let imoveis=JSON.parse(localStorage.getItem('flip_v4_imoveis')||'[]');
+let filtroAtual='todos';
+let idxEditando=-1;
+function salvarLS(){localStorage.setItem('flip_v4_imoveis',JSON.stringify(imoveis));}
+
+function calcFinanciamento(im){
+  const hoje=new Date();
+  const inicio=new Date(im.data_inicio+'T00:00:00');
+  const mesesDecorridos=Math.max(0,Math.floor((hoje-inicio)/(1000*60*60*24*30.44)));
+  const taxa=(im.taxa_juros||0)/100/12;
+  const prazo=im.prazo_meses||1;
+  const entrada=im.entrada||0;
+  const parcela=im.parcela_mensal||0;
+  const mesesPagos=Math.min(mesesDecorridos,prazo);
+  let saldo=0,totalPago=entrada;
+  if(taxa>0){
+    const valorFinanciado=parcela>0?(parcela*(1-Math.pow(1+taxa,-prazo)))/taxa:0;
+    saldo=valorFinanciado*Math.pow(1+taxa,mesesPagos)-parcela*(Math.pow(1+taxa,mesesPagos)-1)/taxa;
+    saldo=Math.max(0,saldo);
+    totalPago=entrada+parcela*mesesPagos;
+  } else {
+    const totalParcelar=parcela*prazo;
+    saldo=Math.max(0,totalParcelar-(totalParcelar/prazo)*mesesPagos);
+    totalPago=entrada+parcela*mesesPagos;
+  }
+  const mesesRestantes=Math.max(0,prazo-mesesPagos);
+  let valorQuitacao=saldo;
+  if(taxa>0&&mesesRestantes>0){
+    valorQuitacao=parcela*(1-Math.pow(1+taxa,-mesesRestantes))/taxa;
+  }
+  return{mesesDecorridos:mesesPagos,mesesRestantes,totalPago,saldoDevedor:saldo,valorQuitacao,parcela,taxa,prazo};
+}
+
+function renderFormTipo(){
+  const tipo=g('p_tipo').value;
+  let html='';
+  if(tipo==='financiado'){
+    html=`<label>Nome / Endereço</label><input type="text" id="p_nome" placeholder="Ex: Lote Eco Village Carmo do Cajuru">
+      <label>Categoria</label><select id="p_cat"><option>Lote</option><option>Apartamento</option><option>Casa</option><option>Terreno</option><option>Sala Comercial</option><option>Outro</option></select>
+      <div class="section-label">Condições de compra</div>
+      <label>Valor de entrada pago (R$)</label><input type="number" id="p_entrada" placeholder="14000">
+      <label>Parcela mensal (R$)</label><input type="number" id="p_parcela" placeholder="1400">
+      <label>Prazo total (meses)</label><input type="number" id="p_prazo" placeholder="150">
+      <label>Taxa de juros anual (%)</label><input type="number" id="p_juros" placeholder="6" step="0.1">
+      <label>Data de início das parcelas</label><input type="date" id="p_data_inicio">
+      <div class="section-label">Projeção de venda</div>
+      <label>Valor estimado de venda (R$)</label><input type="number" id="p_venda_proj" placeholder="0">
+      <label>Link do imóvel / construtora (opcional)</label><input type="url" id="p_link" placeholder="https://...">
+      <label>Anotações</label><textarea id="p_notas" placeholder="Observações sobre o imóvel..."></textarea>`;
+  } else if(tipo==='analise'){
+    html=`<label>Nome / Endereço</label><input type="text" id="p_nome" placeholder="Ex: Terreno Lagoa Santa">
+      <label>Categoria</label><select id="p_cat"><option>Lote</option><option>Apartamento</option><option>Casa</option><option>Terreno</option><option>Sala Comercial</option><option>Outro</option></select>
+      <label>Valor de venda anunciado (R$)</label><input type="number" id="p_valor_anuncio" placeholder="0">
+      <label>Estimativa de compra / proposta (R$)</label><input type="number" id="p_venda_proj" placeholder="0">
+      <label>Link do anúncio</label><input type="url" id="p_link" placeholder="https://...">
+      <label>Anotações livres</label><textarea id="p_notas" placeholder="Pontos positivos, negativos, dúvidas, próximos passos..."></textarea>`;
+  } else if(tipo==='quitado'){
+    html=`<label>Nome / Endereço</label><input type="text" id="p_nome" placeholder="Ex: Apto Centro BH">
+      <label>Categoria</label><select id="p_cat"><option>Lote</option><option>Apartamento</option><option>Casa</option><option>Terreno</option><option>Sala Comercial</option><option>Outro</option></select>
+      <label>Total investido (R$)</label><input type="number" id="p_investimento" placeholder="0">
+      <label>Valor estimado de venda (R$)</label><input type="number" id="p_venda_proj" placeholder="0">
+      <label>Link do imóvel (opcional)</label><input type="url" id="p_link" placeholder="https://...">
+      <label>Anotações</label><textarea id="p_notas" placeholder="Observações..."></textarea>`;
+  } else if(tipo==='vendido'){
+    html=`<label>Nome / Endereço</label><input type="text" id="p_nome" placeholder="Ex: Casa Bairro X">
+      <label>Categoria</label><select id="p_cat"><option>Lote</option><option>Apartamento</option><option>Casa</option><option>Terreno</option><option>Sala Comercial</option><option>Outro</option></select>
+      <label>Total investido (R$)</label><input type="number" id="p_investimento" placeholder="0">
+      <label>Valor de venda realizado (R$)</label><input type="number" id="p_venda_real" placeholder="0">
+      <label>Anotações</label><textarea id="p_notas" placeholder="Resultado da operação..."></textarea>`;
+  }
+  g('form-dinamico').innerHTML=html;
+  if(g('p_data_inicio'))g('p_data_inicio').value=new Date().toISOString().split('T')[0];
+}
+
+function abrirModal(idx=-1){
+  idxEditando=idx;
+  g('modal-titulo').textContent=idx>=0?'Editar Imóvel':'Adicionar Imóvel';
+  if(idx>=0){
+    const im=imoveis[idx];
+    g('p_tipo').value=im.tipo;
+    renderFormTipo();
+    const set=(id,v)=>{if(g(id)&&v!=null)g(id).value=v;};
+    set('p_nome',im.nome);set('p_cat',im.cat);set('p_entrada',im.entrada);
+    set('p_parcela',im.parcela_mensal);set('p_prazo',im.prazo_meses);
+    set('p_juros',im.taxa_juros);set('p_data_inicio',im.data_inicio);
+    set('p_venda_proj',im.venda_proj);set('p_venda_real',im.venda_real);
+    set('p_investimento',im.investimento);set('p_valor_anuncio',im.valor_anuncio);
+    set('p_link',im.link);set('p_notas',im.notas);
+  } else {
+    renderFormTipo();
+  }
+  g('port-modal').style.display='flex';
+}
+function fecharModal(){g('port-modal').style.display='none';}
+
+function salvarImovel(){
+  const tipo=g('p_tipo').value;
+  const im={tipo,nome:g('p_nome')?.value||'Imóvel sem nome',cat:g('p_cat')?.value||'Outro',
+    entrada:parseFloat(g('p_entrada')?.value)||0,parcela_mensal:parseFloat(g('p_parcela')?.value)||0,
+    prazo_meses:parseInt(g('p_prazo')?.value)||0,taxa_juros:parseFloat(g('p_juros')?.value)||0,
+    data_inicio:g('p_data_inicio')?.value||'',venda_proj:parseFloat(g('p_venda_proj')?.value)||0,
+    venda_real:parseFloat(g('p_venda_real')?.value)||0,investimento:parseFloat(g('p_investimento')?.value)||0,
+    valor_anuncio:parseFloat(g('p_valor_anuncio')?.value)||0,link:g('p_link')?.value||'',
+    notas:g('p_notas')?.value||'',criado:idxEditando>=0?imoveis[idxEditando].criado:new Date().toISOString()};
+  if(idxEditando>=0)imoveis[idxEditando]=im;else imoveis.push(im);
+  salvarLS();fecharModal();renderPortfolio();
+}
+function removerImovel(idx){if(confirm('Remover este imóvel?')){imoveis.splice(idx,1);salvarLS();renderPortfolio();}}
+function filtrarPort(f,el){filtroAtual=f;document.querySelectorAll('#port-filtros .pill').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderPortfolio();}
+
+function renderPortfolio(){
+  const financiados=imoveis.filter(i=>i.tipo==='financiado');
+  const totalInv=imoveis.reduce((a,b)=>{
+    if(b.tipo==='financiado'){const c=calcFinanciamento(b);return a+c.totalPago;}
+    if(['quitado','vendido'].includes(b.tipo))return a+b.investimento;
+    return a;
+  },0);
+  const passivo=financiados.reduce((a,b)=>a+calcFinanciamento(b).saldoDevedor,0);
+  const lucroReal=imoveis.filter(i=>i.tipo==='vendido').reduce((a,b)=>a+(b.venda_real-b.investimento),0);
+  const lucroProj=imoveis.filter(i=>i.tipo==='quitado').reduce((a,b)=>a+(b.venda_proj-b.investimento),0);
+  const emAnalise=imoveis.filter(i=>i.tipo==='analise').length;
+  const mc=(l,v,c,s)=>`<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value ${c}">${v}</div>${s?`<div class="metric-sub">${s}</div>`:''}</div>`;
+  g('port-dashboard').innerHTML=mc('Capital Aportado',fmt(totalInv),'gold')+mc('Passivo Total',fmt(passivo),'red','saldo devedor ativo')+mc('Lucro Realizado',fmt(lucroReal),'green')+mc('Lucro Projetado',fmt(lucroProj),'')+mc('Em Análise',emAnalise,'blue','imóveis salvos');
+
+  const lista=filtroAtual==='todos'?imoveis:imoveis.filter(i=>i.tipo===filtroAtual);
+  if(!lista.length){g('port-list').innerHTML=`<div style="text-align:center;padding:3rem;color:var(--text3)"><i class="ti ti-building-off" style="font-size:48px"></i><div style="margin-top:.75rem">Nenhum imóvel nesta categoria</div></div>`;return;}
+
+  const statusBadge={financiado:'badge-amber',analise:'badge-blue',quitado:'badge-green',vendido:'badge-gray'};
+  const statusLabel={financiado:'Financiado',analise:'Em análise',quitado:'Quitado',vendido:'Vendido'};
+  let html='';
+  lista.forEach((im)=>{
+    const idx=imoveis.indexOf(im);
+    let body='';
+    if(im.tipo==='financiado'){
+      const c=calcFinanciamento(im);
+      const pctPago=im.prazo_meses>0?(c.mesesDecorridos/im.prazo_meses)*100:0;
+      const lucroSeVender=im.venda_proj>0?im.venda_proj-c.totalPago-c.saldoDevedor:null;
+      const lucroSeQuitar=im.venda_proj>0?im.venda_proj-c.totalPago-c.valorQuitacao:null;
+      body=`<div class="grid-3" style="gap:.5rem;margin-bottom:.75rem">
+          <div class="metric-card"><div class="metric-label">Total Pago</div><div class="metric-value gold">${fmt(c.totalPago)}</div></div>
+          <div class="metric-card"><div class="metric-label">Saldo Devedor</div><div class="metric-value red">${fmt(c.saldoDevedor)}</div></div>
+          <div class="metric-card"><div class="metric-label">Quitação Antecip.</div><div class="metric-value amber">${fmt(c.valorQuitacao)}</div><div class="metric-sub">c/ desconto de juros</div></div>
+        </div>
+        <div class="progress-row"><span>Progresso do financiamento</span><span>${c.mesesDecorridos}/${im.prazo_meses} meses (${pctPago.toFixed(0)}%)</span></div>
+        <div class="progress-bar"><div class="progress-fill gold-fill" style="width:${Math.min(100,pctPago)}%"></div></div>
+        <div style="margin-top:.75rem">
+          <div class="stat-row"><span>Parcela mensal</span><strong>${fmt(c.parcela)}</strong></div>
+          <div class="stat-row"><span>Meses restantes</span><strong>${c.mesesRestantes} meses</strong></div>
+          <div class="stat-row"><span>Taxa de juros</span><strong>${im.taxa_juros}% a.a.</strong></div>
+          ${im.venda_proj>0?`<div class="stat-row"><span>Projeção de venda</span><strong>${fmt(im.venda_proj)}</strong></div>`:''}
+        </div>
+        ${im.venda_proj>0?`<div class="sim-box"><div class="sim-box-title"><i class="ti ti-calculator" style="font-size:13px"></i> Simulação de Venda</div>
+          <div class="stat-row"><span>Lucro se vender c/ saldo ativo</span><strong class="${lucroSeVender>=0?'green':'red'}">${fmt(lucroSeVender)}</strong></div>
+          <div class="stat-row"><span>Lucro se quitar antes e vender</span><strong class="${lucroSeQuitar>=0?'green':'red'}">${fmt(lucroSeQuitar)}</strong></div>
+        </div>`:''}
+        ${im.link?`<a href="${im.link}" target="_blank" rel="noopener" style="font-size:12px;color:var(--blue);display:inline-flex;align-items:center;gap:4px;margin-top:.75rem"><i class="ti ti-external-link"></i> Abrir link</a>`:''}`;
+    } else if(im.tipo==='analise'){
+      body=`<div class="grid-2" style="gap:.5rem;margin-bottom:.75rem">
+          ${im.valor_anuncio?`<div class="metric-card"><div class="metric-label">Valor Anunciado</div><div class="metric-value">${fmt(im.valor_anuncio)}</div></div>`:''}
+          ${im.venda_proj?`<div class="metric-card"><div class="metric-label">Estimativa de Compra</div><div class="metric-value gold">${fmt(im.venda_proj)}</div></div>`:''}
+        </div>
+        ${im.notas?`<div style="font-size:13px;color:var(--text2);background:var(--bg2);padding:.65rem .9rem;border-radius:var(--radius);line-height:1.6;margin-bottom:.5rem">${im.notas.replace(/\n/g,'<br>')}</div>`:''}
+        ${im.link?`<a href="${im.link}" target="_blank" rel="noopener" style="font-size:12px;color:var(--blue);display:inline-flex;align-items:center;gap:4px"><i class="ti ti-external-link"></i> Abrir anúncio / construtora</a>`:''}`;
+    } else if(im.tipo==='quitado'){
+      const lucro=im.venda_proj-im.investimento;
+      const roi=im.investimento>0?(lucro/im.investimento)*100:0;
+      body=`<div class="grid-3" style="gap:.5rem;margin-bottom:.75rem">
+          <div class="metric-card"><div class="metric-label">Investido</div><div class="metric-value">${fmt(im.investimento)}</div></div>
+          <div class="metric-card"><div class="metric-label">Projeção de Venda</div><div class="metric-value gold">${fmt(im.venda_proj)}</div></div>
+          <div class="metric-card"><div class="metric-label">Lucro Projetado</div><div class="metric-value ${lucro>=0?'green':'red'}">${fmt(lucro)}</div></div>
+        </div>
+        <div class="stat-row"><span>ROI projetado</span><strong class="${roi>=15?'green':roi>=8?'amber':'red'}">${fmtPct(roi)}</strong></div>
+        ${im.notas?`<div style="font-size:12px;color:var(--text2);margin-top:.5rem">${im.notas}</div>`:''}
+        ${im.link?`<a href="${im.link}" target="_blank" rel="noopener" style="font-size:12px;color:var(--blue);display:inline-flex;align-items:center;gap:4px;margin-top:.5rem"><i class="ti ti-external-link"></i> Abrir link</a>`:''}`;
+    } else if(im.tipo==='vendido'){
+      const lucro=im.venda_real-im.investimento;
+      const roi=im.investimento>0?(lucro/im.investimento)*100:0;
+      body=`<div class="grid-3" style="gap:.5rem;margin-bottom:.75rem">
+          <div class="metric-card"><div class="metric-label">Investido</div><div class="metric-value">${fmt(im.investimento)}</div></div>
+          <div class="metric-card"><div class="metric-label">Venda Realizada</div><div class="metric-value gold">${fmt(im.venda_real)}</div></div>
+          <div class="metric-card"><div class="metric-label">Lucro Realizado</div><div class="metric-value ${lucro>=0?'green':'red'}">${fmt(lucro)}</div></div>
+        </div>
+        <div class="stat-row"><span>ROI realizado</span><strong class="${roi>=15?'green':roi>=8?'amber':'red'}">${fmtPct(roi)}</strong></div>
+        ${im.notas?`<div style="font-size:12px;color:var(--text2);margin-top:.5rem">${im.notas}</div>`:''}`;
+    }
+    html+=`<div class="port-card"><div class="port-card-header"><div><div class="port-card-title">${im.nome}</div><div class="port-card-sub">${im.cat||''}</div></div><div class="port-card-actions"><span class="badge ${statusBadge[im.tipo]}">${statusLabel[im.tipo]}</span><button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})"><i class="ti ti-edit" style="font-size:14px"></i></button><button class="btn btn-danger btn-sm" onclick="removerImovel(${idx})"><i class="ti ti-trash" style="font-size:14px"></i></button></div></div>${body}</div>`;
+  });
+  g('port-list').innerHTML=html;
+}
+
+// ─── TRIBUTÁRIO ───────────────────────────────────────────────────
+let socios=[];
+function addSocio(){const nome=g('s_nome').value,pct=parseFloat(g('s_pct').value);if(!nome||!pct)return;socios.push({nome,pct});g('s_nome').value='';g('s_pct').value='';renderSocios();}
 function renderSocios(){
   const tot=socios.reduce((a,b)=>a+b.pct,0);
   let h=socios.map((s,i)=>`<div class="stat-row"><span>${s.nome}</span><strong>${s.pct}%</strong><button onclick="socios.splice(${i},1);renderSocios()" style="background:none;border:none;cursor:pointer;color:var(--text3)"><i class="ti ti-x"></i></button></div>`).join('');
-  document.getElementById('socios-list').innerHTML=h||'<div style="color:var(--text3);font-size:13px">Nenhum sócio cadastrado</div>';
-  document.getElementById('s_total').textContent=socios.length?`Total: ${tot}% ${tot===100?'✓ OK':'— deve somar 100%'}`:'';
-  document.getElementById('s_total').style.color=tot===100?'var(--green)':'var(--red)';
+  g('socios-list').innerHTML=h||'<div style="color:var(--text3);font-size:13px">Nenhum sócio cadastrado</div>';
+  g('s_total').textContent=socios.length?`Total: ${tot}% ${tot===100?'✓ OK':'— deve somar 100%'}`:'';
+  g('s_total').style.color=tot===100?'var(--green)':'var(--red)';
 }
-
 function calcGC(){
   const compra=n('gc_compra'),custos=n('gc_custos'),venda=n('gc_venda');
-  const isento=document.getElementById('gc_isento').value;
+  const isento=g('gc_isento').value;
   const base=Math.max(0,venda-(compra+custos));
   let aliq=isento==='sim'&&venda<=440000?0:base<=5000000?15:base<=10000000?17.5:base<=30000000?20:22.5;
   const imp=base*aliq/100,lucroLiq=venda-compra-custos-imp;
-  document.getElementById('gc_resultado').innerHTML=`
-    <div class="divider"></div>
+  g('gc_resultado').innerHTML=`<div class="divider"></div>
     <div class="stat-row"><span>Ganho bruto</span><strong>${fmt(base)}</strong></div>
     <div class="stat-row"><span>Alíquota</span><strong>${isento==='sim'&&venda<=440000?'Isento':fmtPct(aliq)}</strong></div>
     <div class="stat-row"><span>Imposto estimado</span><strong class="red">${fmt(imp)}</strong></div>
     <div class="stat-row"><span>Lucro líquido pós-IR</span><strong class="green">${fmt(lucroLiq)}</strong></div>
     ${isento==='sim'&&venda<=440000?'<div class="alert alert-success" style="margin-top:.5rem"><i class="ti ti-check"></i><span>Isenção aplicável — confirme com contador</span></div>':''}
-    <div class="disclaimer">Simulação estimada. Consulte contador habilitado.</div>
-  `;
+    <div class="disclaimer">Simulação estimada. Consulte contador habilitado.</div>`;
 }
 
+// ─── EDUCACIONAL ──────────────────────────────────────────────────
 const educItens=[
-  {t:'ITBI — Imposto de Transmissão',c:'Cobrado na transmissão de bens imóveis entre pessoas vivas. Alíquota varia de 2% a 4% dependendo do município. Em leilões, incide sobre o valor da arrematação. Um dos maiores custos transacionais — deve ser previsto no orçamento antes da operação.'},
-  {t:'Ganho de Capital (GCAP)',c:'Diferença entre o valor de venda e o custo de aquisição (incluindo benfeitorias comprovadas). Alíquotas progressivas: 15% até R$5M, 17,5% de R$5M a R$10M, 20% de R$10M a R$30M e 22,5% acima. Há isenção para imóvel residencial único vendido por até R$440.000.'},
-  {t:'Leilão Caixa — Como funciona',c:'Imóveis retomados por inadimplência ou cedidos como dação em pagamento. Modalidades: primeiro leilão (valor de avaliação) e segundo leilão (pode ser abaixo da avaliação). O arrematante assume débitos de IPTU, condomínio e outros ônus. A arrematação não garante imissão imediata na posse.'},
-  {t:'House Flipping — Conceito e Riscos',c:'Compra de imóvel, reforma/valorização e venda com lucro. Depende de: comprar abaixo do mercado, reforma com orçamento controlado, venda rápida. Principais riscos: estouro da reforma, demora na venda, custos ocultos e tributação do ganho de capital.'},
-  {t:'Due Diligence Jurídica',c:'Investigação antes de arrematar: análise da matrícula atualizada, certidões de débitos municipais, situação do ocupante e histórico processual. Assessoria jurídica especializada é indispensável em operações de leilão — nunca pule essa etapa.'},
-  {t:'Documentação do Comprador',c:'Na venda, há custos que podem ficar a cargo do vendedor ou ser negociados: ITBI, escritura, registro e certidões do comprador. Esses valores devem estar no orçamento da operação pois impactam diretamente o lucro líquido.'},
+  {t:'ITBI — Imposto de Transmissão',c:'Cobrado na transmissão de bens imóveis entre pessoas vivas. Alíquota varia de 2% a 4% dependendo do município. Em leilões, incide sobre o valor da arrematação. Um dos maiores custos transacionais — deve ser previsto antes da operação.'},
+  {t:'Ganho de Capital (GCAP)',c:'Diferença entre o valor de venda e o custo de aquisição (incluindo benfeitorias comprovadas). Alíquotas progressivas: 15% até R$5M, 17,5% de R$5M a R$10M, 20% de R$10M a R$30M e 22,5% acima. Isenção para imóvel residencial único vendido por até R$440.000.'},
+  {t:'Leilão Caixa — Como funciona',c:'Imóveis retomados por inadimplência ou cedidos como dação em pagamento. Modalidades: primeiro leilão (valor de avaliação) e segundo leilão (pode ser abaixo). O arrematante assume débitos de IPTU, condomínio e outros ônus. A arrematação não garante imissão imediata na posse.'},
+  {t:'House Flipping — Conceito e Riscos',c:'Compra de imóvel, reforma/valorização e venda com lucro. Depende de: comprar abaixo do mercado, controlar orçamento de reforma, vender rapidamente. Principais riscos: estouro da reforma, demora na venda, custos ocultos e tributação do ganho de capital.'},
+  {t:'Due Diligence Jurídica',c:'Investigação antes de arrematar: análise da matrícula atualizada, certidões de débitos municipais, situação do ocupante, histórico processual. Assessoria jurídica especializada é indispensável — nunca pule essa etapa.'},
+  {t:'Documentação do Comprador',c:'Na venda, há custos que podem ser negociados: ITBI, escritura, registro e certidões do comprador. Esses valores impactam diretamente o lucro líquido e devem estar no orçamento da operação.'},
+  {t:'Quitação Antecipada — Direito do Devedor',c:'Ao quitar um financiamento antes do prazo, você tem direito ao abatimento proporcional dos juros futuros (CDC art. 52 e Lei 9.514/97). O valor de quitação antecipada é o valor presente das parcelas restantes, descontadas pela taxa contratada. Sempre solicite ao credor o saldo devedor atualizado antes de negociar — o valor simulado aqui é uma estimativa.'},
+  {t:'CDI, Selic e IPCA — Qual a diferença?',c:'CDI (Certificado de Depósito Interbancário): taxa de referência das operações entre bancos, usada como benchmark de renda fixa. Selic: taxa básica de juros definida pelo Banco Central, referência para o Tesouro Selic. IPCA: Índice de Preços ao Consumidor Amplo, a inflação oficial do Brasil. Investimentos "acima do IPCA" preservam o poder de compra; acima do CDI superam a renda fixa tradicional.'},
 ];
 function renderEduc(){
   let h='';
   educItens.forEach((it,i)=>{h+=`<div class="educ-item"><div class="educ-header" onclick="toggleEduc(${i})"><span>${it.t}</span><i class="ti ti-chevron-down" id="edi-${i}" style="font-size:16px;color:var(--text3);transition:transform .2s"></i></div><div class="educ-body" id="edb-${i}">${it.c}</div></div>`;});
-  document.getElementById('educ-lista').innerHTML=h;
+  g('educ-lista').innerHTML=h;
 }
-function toggleEduc(i){const b=document.getElementById('edb-'+i);const ic=document.getElementById('edi-'+i);b.classList.toggle('open');ic.style.transform=b.classList.contains('open')?'rotate(180deg)':'';}
+function toggleEduc(i){const b=g('edb-'+i);const ic=g('edi-'+i);b.classList.toggle('open');ic.style.transform=b.classList.contains('open')?'rotate(180deg)':'';}
 
-calcular();calcEmp();renderPortfolio();renderEduc();renderSocios();calcGC();
+// ─── INIT ─────────────────────────────────────────────────────────
+buscarTaxas();
+calcular();
+calcEmp();
+renderPortfolio();
+renderEduc();
+renderSocios();
+calcGC();
+renderFormTipo();
 </script>
 </body>
 </html>
