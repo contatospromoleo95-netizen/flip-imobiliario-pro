@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avenue MG — Cotação & Análise de Dólar (uso interno)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-950:#04211a;
+    --green-900:#072a20;
+    --green-850:#0a352a;
+    --green-800:#0d4133;
+    --green-700:#14563f;
+    --line:rgba(244,241,233,.12);
+    --line-2:rgba(244,241,233,.22);
+    --cream:#f4f1e9;
+    --cream-dim:rgba(244,241,233,.60);
+    --cream-faint:rgba(244,241,233,.38);
+    --accent:#37d38a;
+    --accent-deep:#1fa96a;
+    --gold:#c9a86a;
+    --up:#f0a04b;
+    --down:#37d38a;
+    --danger:#e8735c;
+    --radius:18px;
+    --radius-sm:12px;
+    --shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:
+      radial-gradient(1100px 600px at 82% -8%, rgba(55,211,138,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 4%, rgba(201,168,106,.08), transparent 55%),
+      var(--green-950);
+    color:var(--cream);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.1px;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,'Times New Roman',serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+  .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+  header{
+    position:sticky;top:0;z-index:40;
+    background:rgba(4,33,26,.86);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;gap:20px;padding:14px 22px;max-width:1180px;margin:0 auto;flex-wrap:wrap}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand .av{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:.5px}
+  .brand .n121{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--accent)}
+  .brand small{display:block;font-size:10.5px;letter-spacing:2.4px;color:var(--cream-faint);text-transform:uppercase;margin-top:-2px}
+  .ticker{margin-left:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid transparent}
+
+  .disclaimer{
+    background:linear-gradient(90deg, rgba(232,115,92,.16), rgba(232,115,92,.05));
+    border-bottom:1px solid rgba(232,115,92,.30);
+  }
+  .disclaimer .inner{max-width:1180px;margin:0 auto;padding:9px 22px;font-size:12.5px;color:#f6cabb;display:flex;gap:10px;align-items:center;justify-content:center;text-align:center;flex-wrap:wrap}
+  .disclaimer strong{color:#ffd9cd;letter-spacing:.4px}
+  .dot{width:5px;height:5px;border-radius:50%;background:rgba(246,202,187,.55);display:inline-block}
+
+  .modebar{background:rgba(201,168,106,.08);border-bottom:1px solid rgba(201,168,106,.22)}
+  .modebar .inner{max-width:1180px;margin:0 auto;padding:8px 22px;font-size:12.5px;color:var(--cream-dim);display:flex;gap:10px;align-items:center;justify-content:center;text-align:center;flex-wrap:wrap}
+
+  .hero{padding:52px 0 26px}
+  .eyebrow{font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .hero h1{font-size:clamp(30px,4.6vw,52px);font-weight:500;line-height:1.03;letter-spacing:-.5px;max-width:16ch}
+  .hero p{margin-top:16px;color:var(--cream-dim);max-width:60ch;font-size:15.5px}
+
+  section{padding:22px 0}
+  .sec-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:20px}
+  .sec-num{font-family:'Fraunces',serif;font-size:14px;color:var(--accent);border:1px solid var(--line-2);border-radius:999px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .sec-head h2{font-size:clamp(21px,2.5vw,28px);font-weight:500;letter-spacing:-.3px}
+  .sec-head p{font-size:13px;color:var(--cream-faint);margin-top:2px}
+
+  .grid{display:grid;gap:18px}
+  .card{
+    background:linear-gradient(180deg, var(--green-850), var(--green-900));
+    border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{font-size:16px;font-weight:600;font-family:'Inter',sans-serif;margin-bottom:4px;letter-spacing:.1px}
+  .card .hint{font-size:12px;color:var(--cream-faint);margin-bottom:18px}
+
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12px;letter-spacing:.3px;color:var(--cream-dim);margin-bottom:7px;font-weight:500}
+  .field .sub{font-size:11px;color:var(--cream-faint);font-weight:400}
+  input[type=text],input[type=number],select{
+    width:100%;background:var(--green-950);border:1px solid var(--line-2);border-radius:var(--radius-sm);
+    color:var(--cream);padding:12px 14px;font-size:15px;font-family:inherit;font-variant-numeric:tabular-nums;transition:.15s;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(55,211,138,.14)}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23f4f1e9' stroke-width='1.4' fill='none' stroke-opacity='.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .inline{display:flex;gap:12px;flex-wrap:wrap}
+  .inline > .field{flex:1;min-width:130px;margin-bottom:0}
+  .prefix-wrap{position:relative}
+  .prefix-wrap .pfx{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--cream-faint);font-size:14px;pointer-events:none}
+  .prefix-wrap input{padding-left:40px}
+
+  .suggest{font-size:11.5px;color:var(--cream-faint);margin-top:6px}
+  .suggest b{color:var(--accent)}
+  .linklike{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+  .toggle{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--cream-dim);cursor:pointer;user-select:none}
+  .toggle input{width:auto}
+
+  .segtoggle{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:3px;gap:3px}
+  .segtoggle button{background:transparent;border:none;color:var(--cream-dim);font-family:inherit;font-size:13px;font-weight:600;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.15s}
+  .segtoggle button.on{background:var(--accent);color:#04211a}
+
+  .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .stat{background:var(--green-950);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px}
+  .stat .k{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--cream-faint);margin-bottom:6px}
+  .stat .v{font-size:24px;font-weight:600;font-family:'Fraunces',serif;font-variant-numeric:tabular-nums;line-height:1}
+  .stat .v.accent{color:var(--accent)}
+  .stat .s{font-size:11.5px;color:var(--cream-dim);margin-top:6px}
+  .stat.hero-stat{background:linear-gradient(160deg, rgba(55,211,138,.16), rgba(31,169,106,.05));border-color:rgba(55,211,138,.30)}
+
+  details.calc{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+  details.calc summary{font-size:12.5px;color:var(--cream-dim);cursor:pointer;list-style:none}
+  details.calc summary::-webkit-details-marker{display:none}
+  details.calc summary::before{content:"▸ ";color:var(--accent)}
+  details.calc[open] summary::before{content:"▾ "}
+  .calc-row{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--line);color:var(--cream-dim)}
+  .calc-row b{color:var(--cream);font-variant-numeric:tabular-nums}
+
+  .segs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:4px}
+  .seg{border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:18px;background:var(--green-950);transition:.15s;position:relative;overflow:hidden}
+  .seg.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(55,211,138,.13);background:linear-gradient(170deg,rgba(55,211,138,.08),var(--green-950))}
+  .seg .band{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .seg h4{font-family:'Fraunces',serif;font-size:22px;font-weight:500;margin-bottom:6px}
+  .seg p{font-size:12.5px;color:var(--cream-dim)}
+  .seg .chk{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent}
+  .seg.on .chk{background:var(--accent);border-color:var(--accent);color:var(--green-950)}
+
+  .sched{display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#04211a;font-weight:700;padding:14px 24px;border-radius:999px;text-decoration:none;font-size:15px;transition:.15s;border:none;cursor:pointer;font-family:inherit}
+  .cta:hover{background:#4ee39a;transform:translateY(-1px)}
+  .cta.disabled{background:rgba(244,241,233,.10);color:var(--cream-faint);cursor:not-allowed;pointer-events:none}
+  .sched-note{font-size:13px;color:var(--cream-dim);max-width:46ch}
+  .sched-note b{color:var(--cream)}
+
+  .profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+  .profile{border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:20px;background:var(--green-950);text-align:left}
+  .profile .band{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--cream-faint);margin-bottom:10px}
+  .profile h4{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;margin-bottom:8px}
+  .profile .pct{font-family:'Fraunces',serif;font-size:34px;color:var(--accent);line-height:1;margin-bottom:10px}
+  .profile .amt{font-size:13px;color:var(--cream-dim);min-height:18px}
+  .profile.cons{border-top:3px solid #8fb3a3}
+  .profile.mod{border-top:3px solid #37d38a}
+  .profile.arr{border-top:3px solid #f0a04b}
+  .profile.agr{border-top:3px solid #e8735c}
+
+  .args{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .arg{background:var(--green-950);border:1px solid var(--line);border-radius:var(--radius-sm);padding:20px;position:relative}
+  .arg .idx{font-family:'Fraunces',serif;color:var(--accent);font-size:13px;opacity:.8;margin-bottom:10px}
+  .arg h4{font-size:15px;font-weight:600;margin-bottom:8px}
+  .arg p{font-size:13px;color:var(--cream-dim);line-height:1.55}
+  .caveat{margin-top:18px;font-size:12px;color:var(--cream-faint);border-top:1px solid var(--line);padding-top:14px;line-height:1.6}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:30px 0 60px}
+  footer .inner{font-size:12px;color:var(--cream-faint);line-height:1.7}
+  footer strong{color:var(--cream-dim)}
+
+  .two-col{grid-template-columns:1fr 1fr}
+  @media(max-width:860px){.two-col{grid-template-columns:1fr}}
+  @media(max-width:640px){
+    .hero{padding:34px 0 18px}
+    .ticker{width:100%;margin-left:0;justify-content:space-between}
+    .card{padding:18px}
+  }
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div>
+        <span class="av">Avenue</span><span class="n121"> MG</span>
+        <small>Cotação &amp; Análise</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="disclaimer">
+  <div class="inner">
+    <strong>USO INTERNO.</strong>
+    <span class="dot"></span>
+    Documento de apoio ao especialista. <strong>Não pode ser enviado a clientes.</strong>
+    <span class="dot"></span>
+    Qualquer dúvida, acione seu Banker.
+  </div>
+</div>
+
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Ferramenta de cotação interna</div>
+    <h1 class="serif">Cotação e análise de dólar, em segundos.</h1>
+    <p>Digite o dólar de mercado, aplique o spread da tabela Avenue e o IOF, projete o dólar médio do cliente e monte o racional comercial da remessa — tudo em uma tela.</p>
+  </div>
+
+  <!-- 1. COTAÇÃO -->
+  <section id="cotacao">
+    <div class="sec-head">
+      <div class="sec-num">1</div>
+      <div>
+        <h2 class="serif">Cotação da remessa</h2>
+        <p>Valor em real, spread e IOF → custo efetivo do dólar do cliente.</p>
+      </div>
+    </div>
+
+    <div class="grid two-col">
+      <div class="card">
+        <h3>Parâmetros da operação</h3>
+        <p class="hint">Câmbio D+1 · Real → Dólar (Avenue)</p>
+
+        <div class="field">
+          <label>Dólar de mercado <span class="sub">(R$ — consulte o fechamento do dia e informe aqui)</span></label>
+          <div class="prefix-wrap"><span class="pfx">R$</span>
+            <input type="text" id="inMercado" inputmode="decimal" placeholder="5,4000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Valor a enviar <span class="sub">(câmbio, em R$)</span></label>
+          <div class="prefix-wrap"><span class="pfx">R$</span>
+            <input type="text" id="inValor" inputmode="numeric" placeholder="100.000,00">
+          </div>
+          <div class="suggest" id="volBand"></div>
+        </div>
+
+        <div class="field">
+          <label>Faixa de custódia do cliente <span class="sub">(US$, saldo atual na Avenue)</span></label>
+          <select id="inCustodia">
+            <option value="0">Até US$ 2 mil</option>
+            <option value="1">Acima de US$ 2 mil a 10 mil</option>
+            <option value="2" selected>Acima de US$ 10 mil a 100 mil</option>
+            <option value="3">Acima de US$ 100 mil a 200 mil</option>
+            <option value="4">Acima de US$ 200 mil</option>
+          </select>
+        </div>
+
+        <div class="inline">
+          <div class="field">
+            <label>Spread aplicado <span class="sub">(%)</span></label>
+            <input type="text" id="inSpread" inputmode="decimal">
+            <div class="suggest" id="spreadSug"></div>
+          </div>
+          <div class="field">
+            <label>IOF <span class="sub">(%)</span></label>
+            <select id="inIofPreset">
+              <option value="1.1" selected>1,1% — Investimento no exterior</option>
+              <option value="3.5">3,5% — Disponibilidade / não-investimento</option>
+              <option value="custom">Outro (informar)</option>
+            </select>
+            <input type="text" id="inIof" inputmode="decimal" value="1,1" style="margin-top:8px;display:none">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Resultado da cotação</h3>
+        <p class="hint">Custo do dólar all-in = mercado × (1 + spread) × (1 + IOF)</p>
+
+        <div class="result-grid">
+          <div class="stat hero-stat">
+            <div class="k">Dólar efetivo do cliente</div>
+            <div class="v accent mono" id="outEfetivo">—</div>
+            <div class="s" id="outEfetivoS">com spread + IOF</div>
+          </div>
+          <div class="stat">
+            <div class="k">US$ que o cliente recebe</div>
+            <div class="v mono" id="outUsd">—</div>
+            <div class="s">líquido do câmbio</div>
+          </div>
+        </div>
+
+        <div class="result-grid" style="margin-top:14px">
+          <div class="stat">
+            <div class="k">Dólar de fechamento</div>
+            <div class="v mono" id="outFech" style="font-size:20px">—</div>
+            <div class="s">mercado + spread</div>
+          </div>
+          <div class="stat">
+            <div class="k">IOF em R$</div>
+            <div class="v mono" id="outIof" style="font-size:20px">—</div>
+            <div class="s" id="outIofPct"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Custo total (spread+IOF)</div>
+            <div class="v mono" id="outCusto" style="font-size:20px">—</div>
+            <div class="s" id="outCustoPct"></div>
+          </div>
+        </div>
+
+        <details class="calc">
+          <summary>Ver memória de cálculo</summary>
+          <div id="calcBody" style="margin-top:10px"></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. DOLAR MEDIO -->
+  <section id="medio">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div>
+        <h2 class="serif">Dólar médio do cliente</h2>
+        <p>Se o cliente já possui Avenue, projete o novo dólar médio ponderado após esta remessa.</p>
+      </div>
+    </div>
+
+    <div class="grid two-col">
+      <div class="card">
+        <h3>Seu cliente já possui Avenue?</h3>
+        <p class="hint">Define se há posição anterior a considerar no dólar médio.</p>
+        <div class="segtoggle" id="clienteToggle">
+          <button type="button" data-v="nao" class="on">Não — cliente novo</button>
+          <button type="button" data-v="sim">Sim — já possui Avenue</button>
+        </div>
+
+        <div id="posicaoFields" style="display:none;margin-top:20px">
+          <div class="inline">
+            <div class="field">
+              <label>US$ já aportado</label>
+              <div class="prefix-wrap"><span class="pfx">$</span>
+                <input type="text" id="inQ0" inputmode="decimal" placeholder="0,00"></div>
+            </div>
+            <div class="field">
+              <label>Dólar médio atual</label>
+              <div class="prefix-wrap"><span class="pfx">R$</span>
+                <input type="text" id="inD0" inputmode="decimal" placeholder="0,00"></div>
+            </div>
+          </div>
+        </div>
+        <p class="hint" id="novoClienteNote" style="margin-top:18px;margin-bottom:0">Cliente novo: esta será a primeira remessa — o dólar médio inicial será o próprio dólar efetivo desta operação.</p>
+
+        <label class="toggle" style="margin-top:16px">
+          <input type="checkbox" id="inIofMedio" checked>
+          Considerar IOF no dólar médio desta remessa
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>Projeção do dólar médio</h3>
+        <p class="hint">Média ponderada pelo volume em dólar.</p>
+        <div class="result-grid">
+          <div class="stat">
+            <div class="k">Dólar médio atual</div>
+            <div class="v mono" id="outD0" style="font-size:22px">—</div>
+            <div class="s" id="outQ0s"></div>
+          </div>
+          <div class="stat hero-stat">
+            <div class="k">Novo dólar médio</div>
+            <div class="v accent mono" id="outNovoMedio" style="font-size:22px">—</div>
+            <div class="s" id="outMedioDelta"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Posição total após</div>
+            <div class="v mono" id="outTotalUsd" style="font-size:22px">—</div>
+            <div class="s">US$ em custódia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SEGMENTO / AGENDAMENTO -->
+  <section id="segmento">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div>
+        <h2 class="serif">Segmento &amp; agendamento</h2>
+        <p>Enquadramento do cliente e regra de encaminhamento ao prospector.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field" style="max-width:320px">
+        <label>Target do cliente <span class="sub">(US$ — objetivo total de aporte)</span></label>
+        <div class="prefix-wrap"><span class="pfx">$</span>
+          <input type="text" id="inTarget" inputmode="decimal" placeholder="50.000,00"></div>
+      </div>
+
+      <div class="segs" id="segCards">
+        <div class="seg" data-seg="0">
+          <div class="chk">✓</div>
+          <div class="band">Até US$ 10 mil</div>
+          <h4>Avenue</h4>
+          <p>Carteiras recomendadas pelos estrategistas e análises do cenário macro.</p>
+        </div>
+        <div class="seg" data-seg="1">
+          <div class="chk">✓</div>
+          <div class="band">A partir de US$ 10 mil</div>
+          <h4>Avenue Advance</h4>
+          <p>Gestão de recursos internacional especializada para guiar a alocação do patrimônio.</p>
+        </div>
+        <div class="seg" data-seg="2">
+          <div class="chk">✓</div>
+          <div class="band">A partir de US$ 200 mil</div>
+          <h4>Avenue Singular</h4>
+          <p>Curadoria exclusiva de ativos internacionais + planejamento patrimonial e sucessório.</p>
+        </div>
+      </div>
+      <div class="suggest" id="segSug" style="margin-top:14px"></div>
+
+      <div style="border-top:1px solid var(--line);margin-top:22px;padding-top:22px">
+        <div class="sched">
+          <div>
+            <h3 style="margin-bottom:6px">Agendar com o prospector</h3>
+            <div class="sched-note" id="schedNote">Informe o target do cliente para verificar elegibilidade de agendamento. Mínimo oficial da política: <b>US$ 50 mil</b>.</div>
+          </div>
+          <a class="cta disabled" id="schedBtn" href="https://avne.us/prospector_bh" target="_blank" rel="noopener">Agendar conversa →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. RECOMENDAÇÃO POR PERFIL -->
+  <section id="perfil">
+    <div class="sec-head">
+      <div class="sec-num">4</div>
+      <div>
+        <h2 class="serif">Recomendação por perfil de investidor</h2>
+        <p>Alocação em dólar recomendada pelo banco, por perfil de suitability.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="field" style="max-width:320px">
+        <label>Patrimônio total do cliente <span class="sub">(R$ — opcional, para simular o valor sugerido)</span></label>
+        <div class="prefix-wrap"><span class="pfx">R$</span>
+          <input type="text" id="inPatrimonio" inputmode="decimal" placeholder="1.000.000,00"></div>
+      </div>
+
+      <div class="profiles" id="profileCards" style="margin-top:8px">
+        <div class="profile cons" data-pct="3">
+          <div class="band">Suitability</div>
+          <h4>Conservador</h4>
+          <div class="pct">3%</div>
+          <div class="amt" data-amt></div>
+        </div>
+        <div class="profile mod" data-pct="10">
+          <div class="band">Suitability</div>
+          <h4>Moderado</h4>
+          <div class="pct">10%</div>
+          <div class="amt" data-amt></div>
+        </div>
+        <div class="profile arr" data-pct="20">
+          <div class="band">Suitability</div>
+          <h4>Arrojado</h4>
+          <div class="pct">20%</div>
+          <div class="amt" data-amt></div>
+        </div>
+        <div class="profile agr" data-pct="35">
+          <div class="band">Suitability</div>
+          <h4>Agressivo</h4>
+          <div class="pct">35%</div>
+          <div class="amt" data-amt></div>
+        </div>
+      </div>
+      <div class="caveat">Percentuais de referência do banco para exposição cambial em dólar por perfil de suitability. Ajuste sempre ao API/perfil formal do cliente e à política vigente antes de recomendar.</div>
+    </div>
+  </section>
+
+  <!-- 5. ARGUMENTOS -->
+  <section id="argumentos">
+    <div class="sec-head">
+      <div class="sec-num">5</div>
+      <div>
+        <h2 class="serif">Argumentos comerciais · visão para o dólar</h2>
+        <p>Racional estrutural para a conversa. Diversificação, não market timing.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="args">
+        <div class="arg">
+          <div class="idx">01</div>
+          <h4>Proteção contra o risco Brasil</h4>
+          <p>Dolarizar parte do patrimônio reduz a exposição a risco fiscal, político e cambial local. É seguro para o poder de compra de quem terá gastos ou metas em moeda forte.</p>
+        </div>
+        <div class="arg">
+          <div class="idx">02</div>
+          <h4>O maior mercado do mundo</h4>
+          <p>Acesso a mais de 8 mil ações, +700 títulos de renda fixa em dólar, fundos e treasuries — classes que não existem, ou existem de forma limitada, na carteira local.</p>
+        </div>
+        <div class="arg">
+          <div class="idx">03</div>
+          <h4>Descorrelação reduz volatilidade</h4>
+          <p>Ativos em dólar tendem a subir justamente quando o cenário local se deteriora. Somar essa ponta suaviza a volatilidade da carteira consolidada do cliente.</p>
+        </div>
+        <div class="arg">
+          <div class="idx">04</div>
+          <h4>Hedge de gastos futuros</h4>
+          <p>Viagens, intercâmbio, saúde, imóveis no exterior e sucessão internacional são despesas em dólar. Construir a reserva na moeda-fim elimina o risco de câmbio no momento do gasto.</p>
+        </div>
+        <div class="arg">
+          <div class="idx">05</div>
+          <h4>Ciclo de juros em virada</h4>
+          <p>Com a Selic já em queda (14,25% a.a. e projeções em torno de 13,5% ao fim de 2026), a atratividade relativa do CDI tende a diminuir. Diversificar câmbio protege o retorno real ao longo do tempo.</p>
+        </div>
+        <div class="arg">
+          <div class="idx">06</div>
+          <h4>Legado e sucessão (Singular)</h4>
+          <p>A partir de US$ 200 mil, o cliente acessa curadoria exclusiva e planejamento patrimonial/sucessório internacional — argumento central para patrimônios que pensam em gerações.</p>
+        </div>
+      </div>
+      <div class="caveat">
+        <strong>Uso responsável dos argumentos:</strong> a tese é de <b>diversificação estrutural</b>, não de previsão de valorização do dólar. Rentabilidade passada não garante resultado futuro e o dólar pode cair frente ao real. Adeque o discurso ao perfil, aos objetivos e à suitability do cliente. Este material é interno e não constitui recomendação a ser repassada ao investidor.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap inner">
+    <strong>Avenue MG</strong> — ferramenta interna de cotação e análise.<br>
+    <strong>Confidencial · uso exclusivo do especialista.</strong> Não pode ser compartilhada, encaminhada ou apresentada a clientes. Em caso de dúvida, acione seu Banker.<br><br>
+    O dólar de mercado é informado manualmente pelo especialista. IOF conforme Decreto 6.306/2007 e alterações (Dec. 12.499/2025): 1,1% investimento / 3,5% disponibilidade · Selic 14,25% a.a. (Copom 17/06/2026) · Spreads conforme tabela Avenue Câmbio D+1 Real→Dólar · Recomendação de alocação por perfil conforme política interna. Valores são estimativas de apoio; a taxa e os encargos definitivos são os do fechamento oficial da operação.
+  </div>
+</footer>
+
+<script>
+/* ============ helpers ============ */
+const $ = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const nf4 = new Intl.NumberFormat('pt-BR',{minimumFractionDigits:4,maximumFractionDigits:4});
+const brl = v => 'R$ ' + nf.format(v);
+const usd = v => 'US$ ' + nf.format(v);
+const pct = v => nf.format(v) + '%';
+function num(str){
+  if(str===null||str===undefined) return NaN;
+  str = String(str).trim();
+  if(!str) return NaN;
+  if(str.indexOf(',')>-1){ str = str.replace(/\./g,'').replace(',', '.'); }
+  return parseFloat(str.replace(/[^\d.\-]/g,''));
+}
+
+/* ============ Avenue spread table (Câmbio D+1 Real→Dólar) ============ */
+const SPREAD = [
+  [1.95,1.90,1.80,1.60,1.20,0.90],
+  [1.90,1.80,1.60,1.40,1.00,0.80],
+  [1.50,1.40,1.20,1.10,0.80,0.60],
+  [1.40,1.20,1.10,1.00,0.70,0.60],
+  [1.30,1.20,1.00,0.80,0.60,0.50],
+];
+const VOL_LABELS = ['Até R$ 25 mil','R$ 25 mil–50 mil','R$ 50 mil–100 mil','R$ 100 mil–500 mil','R$ 500 mil–1 mi','Acima de R$ 1 mi'];
+function volCol(v){
+  if(!(v>0)) return 0;
+  if(v<=25000) return 0;
+  if(v<=50000) return 1;
+  if(v<=100000) return 2;
+  if(v<=500000) return 3;
+  if(v<=1000000) return 4;
+  return 5;
+}
+function suggestedSpread(){
+  const v = num($('inValor').value);
+  const row = parseInt($('inCustodia').value,10);
+  const col = volCol(v);
+  return {v, spread: SPREAD[row][col], col};
+}
+
+let spreadLocked = false;
+let clienteAvenue = false;
+
+/* ============ quote engine ============ */
+function recompute(){
+  const sug = suggestedSpread();
+  $('spreadSug').innerHTML = 'Sugerido pela tabela: <b>'+nf.format(sug.spread)+'%</b> ('+VOL_LABELS[sug.col]+') · <span class="linklike" id="applySug">aplicar</span>';
+  const as = $('applySug'); if(as) as.onclick=()=>{ $('inSpread').value=nf.format(sug.spread); spreadLocked=false; recompute(); };
+  if(!spreadLocked){ $('inSpread').value = nf.format(sug.spread); }
+  $('volBand').textContent = sug.v>0 ? ('Volume de câmbio: '+VOL_LABELS[sug.col]) : '';
+
+  const V = num($('inValor').value);
+  const mercado = num($('inMercado').value);
+  const spread = num($('inSpread').value)/100;
+  const iof = num($('inIof').value)/100;
+
+  const ok = V>0 && mercado>0 && spread>=0 && iof>=0;
+  if(!ok){
+    ['outEfetivo','outUsd','outFech','outIof','outCusto'].forEach(k=>$(k).textContent='—');
+    $('calcBody').innerHTML=''; recomputeMedio(); return;
+  }
+
+  const fechamento = mercado*(1+spread);
+  const usdRecebe  = V/fechamento;
+  const iofBRL     = V*iof;
+  const efetivo    = fechamento*(1+iof);
+  const spreadBRL  = V - (V/(1+spread));
+  const custoTotal = spreadBRL + iofBRL;
+  const custoPct   = custoTotal / V * 100;
+
+  $('outEfetivo').textContent = 'R$ '+nf4.format(efetivo);
+  $('outUsd').textContent = usd(usdRecebe);
+  $('outFech').textContent = 'R$ '+nf4.format(fechamento);
+  $('outIof').textContent = brl(iofBRL);
+  $('outIofPct').textContent = pct(iof*100)+' · débito total '+brl(V+iofBRL);
+  $('outCusto').textContent = brl(custoTotal);
+  $('outCustoPct').textContent = pct(custoPct)+' sobre o enviado';
+  $('outEfetivoS').textContent = 'spread '+nf.format(spread*100)+'% + IOF '+nf.format(iof*100)+'%';
+
+  $('calcBody').innerHTML =
+    row('Dólar de mercado', 'R$ '+nf4.format(mercado)) +
+    row('(+) Spread '+nf.format(spread*100)+'%', 'R$ '+nf4.format(fechamento)+' /US$') +
+    row('Valor enviado (câmbio)', brl(V)) +
+    row('US$ recebidos (V ÷ fechamento)', usd(usdRecebe)) +
+    row('IOF ('+nf.format(iof*100)+'% × R$ enviado)', brl(iofBRL)) +
+    row('Débito total no cliente', brl(V+iofBRL)) +
+    row('Dólar efetivo all-in', 'R$ '+nf4.format(efetivo)+' /US$');
+
+  recompute._usd = usdRecebe;
+  recompute._efetivo = efetivo;
+  recompute._fech = fechamento;
+  recomputeMedio();
+}
+function row(k,v){ return '<div class="calc-row"><span>'+k+'</span><b>'+v+'</b></div>'; }
+
+/* ============ cliente já possui Avenue? ============ */
+const clienteToggle = $('clienteToggle');
+clienteToggle.addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  clienteAvenue = btn.dataset.v === 'sim';
+  clienteToggle.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b===btn));
+  $('posicaoFields').style.display = clienteAvenue ? 'block' : 'none';
+  $('novoClienteNote').style.display = clienteAvenue ? 'none' : 'block';
+  if(!clienteAvenue){ $('inQ0').value=''; $('inD0').value=''; }
+  recomputeMedio(); recomputeSeg();
+});
+
+/* ============ dólar médio ============ */
+function recomputeMedio(){
+  const q0 = clienteAvenue ? (num($('inQ0').value)||0) : 0;
+  const d0 = clienteAvenue ? (num($('inD0').value)||0) : 0;
+  const q1 = recompute._usd||0;
+  const withIof = $('inIofMedio').checked;
+  const cost1 = withIof ? (recompute._efetivo||0) : (recompute._fech||0);
+
+  $('outD0').textContent = d0>0 ? 'R$ '+nf4.format(d0) : '—';
+  $('outQ0s').textContent = q0>0 ? usd(q0)+' aportados' : (clienteAvenue ? 'sem aporte informado' : 'cliente novo');
+
+  const totalUsd = q0+q1;
+  if(!(q1>0) || !(cost1>0)){
+    $('outNovoMedio').textContent='—'; $('outMedioDelta').textContent='';
+    $('outTotalUsd').textContent = totalUsd>0?usd(totalUsd):'—';
+    return;
+  }
+  const novo = (q0*d0 + q1*cost1) / totalUsd;
+  $('outNovoMedio').textContent = 'R$ '+nf4.format(novo);
+  $('outTotalUsd').textContent = usd(totalUsd);
+  if(d0>0 && q0>0){
+    const delta = (novo-d0);
+    const sign = delta>0?'+':'';
+    $('outMedioDelta').innerHTML = (delta>=0?'▲':'▼')+' '+sign+'R$ '+nf4.format(Math.abs(delta))+' vs médio atual';
+  }else{
+    $('outMedioDelta').textContent = 'primeira remessa';
+  }
+}
+
+/* ============ segmento & agendamento ============ */
+const ENABLE_THRESHOLD = 40000;
+function segFromUsd(u){ if(u>=200000) return 2; if(u>=10000) return 1; return 0; }
+let segManual = null;
+function recomputeSeg(){
+  const target = num($('inTarget').value)||0;
+  const q0 = clienteAvenue ? (num($('inQ0').value)||0) : 0;
+  const projeta = Math.max(target, q0 + (recompute._usd||0));
+  const sugg = segFromUsd(projeta);
+  const active = segManual!==null ? segManual : sugg;
+  document.querySelectorAll('.seg').forEach(el=>{
+    el.classList.toggle('on', parseInt(el.dataset.seg,10)===active);
+  });
+  const names = ['Avenue','Avenue Advance','Avenue Singular'];
+  $('segSug').innerHTML = projeta>0
+    ? 'Enquadramento sugerido pela posição projetada ('+usd(projeta)+'): <b>'+names[sugg]+'</b>. '+(segManual!==null?'(seleção manual ativa — clique para voltar ao sugerido)':'')
+    : 'Informe o target para sugerir o segmento.';
+
+  const btn = $('schedBtn'), note=$('schedNote');
+  if(target>=ENABLE_THRESHOLD){
+    btn.classList.remove('disabled');
+    note.innerHTML='✓ Elegível para agendamento com o prospector. Mínimo oficial da política: <b>US$ 50 mil</b>.';
+  }else if(target>0){
+    btn.classList.add('disabled');
+    note.innerHTML='<b style="color:var(--up)">Valor inferior ao target mínimo do prospector.</b>';
+  }else{
+    btn.classList.add('disabled');
+    note.innerHTML='Informe o target do cliente para verificar elegibilidade de agendamento. Mínimo oficial da política: <b>US$ 50 mil</b>.';
+  }
+}
+document.querySelectorAll('.seg').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const s = parseInt(el.dataset.seg,10);
+    segManual = (segManual===s)?null:s;
+    recomputeSeg();
+  });
+});
+
+/* ============ recomendação por perfil ============ */
+function renderPerfil(){
+  const patrimonio = num($('inPatrimonio').value)||0;
+  document.querySelectorAll('#profileCards .profile').forEach(card=>{
+    const p = parseFloat(card.dataset.pct);
+    const el = card.querySelector('[data-amt]');
+    el.textContent = patrimonio>0 ? ('Sugerido: '+brl(patrimonio*p/100)) : '';
+  });
+}
+$('inPatrimonio').addEventListener('input', renderPerfil);
+
+/* ============ events ============ */
+['inValor','inCustodia','inSpread','inMercado','inIof'].forEach(id=>{
+  $(id).addEventListener('input',()=>{ if(id==='inSpread') spreadLocked=true; recompute(); recomputeSeg(); });
+});
+['inQ0','inD0','inIofMedio'].forEach(id=>$(id).addEventListener('input',()=>{recomputeMedio(); recomputeSeg();}));
+$('inTarget').addEventListener('input',recomputeSeg);
+$('inIofPreset').addEventListener('change',e=>{
+  const v=e.target.value;
+  if(v==='custom'){ $('inIof').style.display='block'; $('inIof').focus(); }
+  else{ $('inIof').style.display='none'; $('inIof').value=nf.format(parseFloat(v)); }
+  recompute();
+});
+
+/* ============ init ============ */
+$('inValor').value='100.000,00';
+recompute();
+recomputeSeg();
+renderPerfil();
+</script>
+</body>
+</html>
