@@ -170,12 +170,41 @@
   footer .inner{font-size:12px;color:var(--cream-faint);line-height:1.7}
   footer strong{color:var(--cream-dim)}
 
+  /* cotação ao vivo */
+  .live{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--cream-dim)}
+  .live .lbl{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cream-faint)}
+  .live .px{font-family:'Fraunces',serif;font-size:19px;font-weight:600;color:var(--cream)}
+  .upd{font-size:11px;color:var(--cream-faint)}
+  .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(55,211,138,.6);animation:pulse 2s infinite}
+  .pulse.off{background:var(--danger);animation:none}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(55,211,138,.55)}70%{box-shadow:0 0 0 8px rgba(55,211,138,0)}100%{box-shadow:0 0 0 0 rgba(55,211,138,0)}}
+  .pill.up{color:var(--up);background:rgba(240,160,75,.12);border-color:rgba(240,160,75,.3)}
+  .pill.down{color:var(--down);background:rgba(55,211,138,.12);border-color:rgba(55,211,138,.3)}
+
+  /* panorama 30 dias */
+  .pano{display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:stretch}
+  .pano-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+  .pano-stats .stat{padding:13px}
+  .pano-stats .stat .v{font-size:19px}
+  .pano-stats .stat.wide{grid-column:1/-1}
+  .stat .v.up{color:var(--up)}
+  .stat .v.down{color:var(--down)}
+  .chart-box{position:relative;min-height:240px}
+  .chart-box svg{display:block;width:100%;height:100%}
+  .chart-tip{position:absolute;pointer-events:none;background:var(--green-950);border:1px solid var(--line-2);border-radius:10px;padding:7px 10px;font-size:12px;white-space:nowrap;transform:translate(-50%,-115%);opacity:0;transition:opacity .12s}
+  .chart-tip b{font-family:'Fraunces',serif;font-size:14px;color:var(--cream)}
+  .chart-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;font-size:13px;color:var(--cream-faint);text-align:center}
+  .btn-ghost{background:transparent;border:1px solid var(--line-2);color:var(--cream-dim);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12.5px;cursor:pointer}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  @media(max-width:860px){.pano{grid-template-columns:1fr}}
+
   .two-col{grid-template-columns:1fr 1fr}
   @media(max-width:860px){.two-col{grid-template-columns:1fr}}
   @media(max-width:640px){
     .hero{padding:34px 0 18px}
     .ticker{width:100%;margin-left:0;justify-content:space-between}
     .card{padding:18px}
+    header .upd{display:none}
   }
   @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -189,6 +218,15 @@
         <span class="av">Avenue</span><span class="n121"> MG</span>
         <small>Cotação &amp; Análise</small>
       </div>
+    </div>
+    <div class="ticker">
+      <div class="live" title="Dólar comercial (venda) · fonte AwesomeAPI · atualiza a cada 60s">
+        <span class="pulse" id="livePulse"></span>
+        <span class="lbl">USD/BRL</span>
+        <span class="px mono" id="livePx">—</span>
+        <span class="pill" id="liveChg"></span>
+      </div>
+      <span class="upd" id="liveUpd">carregando cotação…</span>
     </div>
   </div>
 </header>
@@ -212,10 +250,57 @@
     <p>Digite o dólar de mercado, aplique o spread da tabela Avenue e o IOF, projete o dólar médio do cliente e monte o racional comercial da remessa — tudo em uma tela.</p>
   </div>
 
-  <!-- 1. COTAÇÃO -->
-  <section id="cotacao">
+  <!-- 1. PANORAMA 30 DIAS -->
+  <section id="panorama">
     <div class="sec-head">
       <div class="sec-num">1</div>
+      <div>
+        <h2 class="serif">Panorama do dólar · últimos 30 dias</h2>
+        <p>Fechamento diário do dólar comercial (venda), com máxima e mínima do período.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="pano">
+        <div class="pano-stats">
+          <div class="stat hero-stat wide">
+            <div class="k">Agora</div>
+            <div class="v accent mono" id="pNow">—</div>
+            <div class="s" id="pNowS"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Máxima 30d</div>
+            <div class="v up mono" id="pMax">—</div>
+            <div class="s" id="pMaxS"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Mínima 30d</div>
+            <div class="v down mono" id="pMin">—</div>
+            <div class="s" id="pMinS"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Média 30d</div>
+            <div class="v mono" id="pAvg">—</div>
+            <div class="s" id="pAmp"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Variação 30d</div>
+            <div class="v mono" id="pVar">—</div>
+            <div class="s" id="pVarS"></div>
+          </div>
+        </div>
+        <div class="chart-box" id="chartBox">
+          <div class="chart-msg" id="chartMsg">Carregando histórico…</div>
+          <div class="chart-tip" id="chartTip"></div>
+        </div>
+      </div>
+      <div class="caveat" style="margin-top:16px">Fonte: AwesomeAPI (dados de mercado, podem ter alguns minutos de atraso). Máxima e mínima consideram o fechamento de cada dia. Referência de apoio — a taxa definitiva é a do fechamento oficial da operação.</div>
+    </div>
+  </section>
+
+  <!-- 2. COTAÇÃO -->
+  <section id="cotacao">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
       <div>
         <h2 class="serif">Cotação da remessa</h2>
         <p>Valor em real, spread e IOF → custo efetivo do dólar do cliente.</p>
@@ -228,10 +313,11 @@
         <p class="hint">Câmbio D+1 · Real → Dólar (Avenue)</p>
 
         <div class="field">
-          <label>Dólar de mercado <span class="sub">(R$ — consulte o fechamento do dia e informe aqui)</span></label>
+          <label>Dólar de mercado <span class="sub">(R$ — preenchido com a cotação ao vivo; pode editar)</span></label>
           <div class="prefix-wrap"><span class="pfx">R$</span>
             <input type="text" id="inMercado" inputmode="decimal" placeholder="5,4000">
           </div>
+          <div class="suggest" id="mercadoSug"></div>
         </div>
 
         <div class="field">
@@ -314,10 +400,10 @@
     </div>
   </section>
 
-  <!-- 2. DOLAR MEDIO -->
+  <!-- 3. DOLAR MEDIO -->
   <section id="medio">
     <div class="sec-head">
-      <div class="sec-num">2</div>
+      <div class="sec-num">3</div>
       <div>
         <h2 class="serif">Dólar médio do cliente</h2>
         <p>Se o cliente já possui Avenue, projete o novo dólar médio ponderado após esta remessa.</p>
@@ -379,10 +465,10 @@
     </div>
   </section>
 
-  <!-- 3. SEGMENTO / AGENDAMENTO -->
+  <!-- 4. SEGMENTO / AGENDAMENTO -->
   <section id="segmento">
     <div class="sec-head">
-      <div class="sec-num">3</div>
+      <div class="sec-num">4</div>
       <div>
         <h2 class="serif">Segmento &amp; agendamento</h2>
         <p>Enquadramento do cliente e regra de encaminhamento ao prospector.</p>
@@ -430,10 +516,10 @@
     </div>
   </section>
 
-  <!-- 4. RECOMENDAÇÃO POR PERFIL -->
+  <!-- 5. RECOMENDAÇÃO POR PERFIL -->
   <section id="perfil">
     <div class="sec-head">
-      <div class="sec-num">4</div>
+      <div class="sec-num">5</div>
       <div>
         <h2 class="serif">Recomendação por perfil de investidor</h2>
         <p>Alocação em dólar recomendada pelo banco, por perfil de suitability.</p>
@@ -476,10 +562,10 @@
     </div>
   </section>
 
-  <!-- 5. ARGUMENTOS -->
+  <!-- 6. ARGUMENTOS -->
   <section id="argumentos">
     <div class="sec-head">
-      <div class="sec-num">5</div>
+      <div class="sec-num">6</div>
       <div>
         <h2 class="serif">Argumentos comerciais · visão para o dólar</h2>
         <p>Racional estrutural para a conversa. Diversificação, não market timing.</p>
@@ -530,7 +616,7 @@
   <div class="wrap inner">
     <strong>Avenue MG</strong> — ferramenta interna de cotação e análise.<br>
     <strong>Confidencial · uso exclusivo do especialista.</strong> Não pode ser compartilhada, encaminhada ou apresentada a clientes. Em caso de dúvida, acione seu Banker.<br><br>
-    O dólar de mercado é informado manualmente pelo especialista. IOF conforme Decreto 6.306/2007 e alterações (Dec. 12.499/2025): 1,1% investimento / 3,5% disponibilidade · Selic 14,25% a.a. (Copom 17/06/2026) · Spreads conforme tabela Avenue Câmbio D+1 Real→Dólar · Recomendação de alocação por perfil conforme política interna. Valores são estimativas de apoio; a taxa e os encargos definitivos são os do fechamento oficial da operação.
+    O dólar de mercado é preenchido com a cotação ao vivo (AwesomeAPI) e pode ser ajustado manualmente pelo especialista. IOF conforme Decreto 6.306/2007 e alterações (Dec. 12.499/2025): 1,1% investimento / 3,5% disponibilidade · Selic 14,25% a.a. (Copom 17/06/2026) · Spreads conforme tabela Avenue Câmbio D+1 Real→Dólar · Recomendação de alocação por perfil conforme política interna. Valores são estimativas de apoio; a taxa e os encargos definitivos são os do fechamento oficial da operação.
   </div>
 </footer>
 
@@ -733,11 +819,190 @@ $('inIofPreset').addEventListener('change',e=>{
   recompute();
 });
 
+/* ============ cotação ao vivo (AwesomeAPI) ============ */
+const API = 'https://economia.awesomeapi.com.br/json';
+const LIVE_EVERY_MS = 60000;
+let mercadoAuto = null;   // último valor preenchido automaticamente no campo "Dólar de mercado"
+let liveAsk = null;
+
+const fmtDia  = d => d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+const fmtHora = d => d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+async function getJSON(url){
+  const r = await fetch(url,{cache:'no-store'});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  return r.json();
+}
+
+async function loadLive(){
+  try{
+    const data = await getJSON(API+'/last/USD-BRL');
+    const q = data.USDBRL;
+    const ask = parseFloat(q.ask), chg = parseFloat(q.pctChange);
+    const when = new Date(parseInt(q.timestamp,10)*1000);
+    liveAsk = ask;
+
+    $('livePx').textContent = 'R$ '+nf4.format(ask);
+    const c = $('liveChg');
+    c.className = 'pill '+(chg>=0?'up':'down');
+    c.textContent = (chg>=0?'▲ +':'▼ ')+nf.format(chg)+'%';
+    $('livePulse').classList.remove('off');
+    $('liveUpd').textContent = 'atualizado '+fmtHora(when);
+
+    $('pNow').textContent = 'R$ '+nf4.format(ask);
+    $('pNowS').textContent = 'máx. '+nf4.format(parseFloat(q.high))+' · mín. '+nf4.format(parseFloat(q.low))+' no dia';
+
+    // Preenche o campo só se estiver vazio ou ainda com o valor automático (não sobrescreve edição manual)
+    const campo = $('inMercado');
+    if(!campo.value.trim() || campo.value===mercadoAuto){
+      mercadoAuto = nf4.format(ask);
+      campo.value = mercadoAuto;
+      recompute(); recomputeSeg();
+    }
+    renderMercadoSug();
+  }catch(err){
+    $('livePulse').classList.add('off');
+    $('livePx').textContent = '—';
+    $('liveChg').className = 'pill'; $('liveChg').textContent = '';
+    $('liveUpd').textContent = 'cotação ao vivo indisponível — informe manualmente';
+    renderMercadoSug();
+  }
+}
+
+function renderMercadoSug(){
+  const el = $('mercadoSug');
+  if(liveAsk===null){ el.innerHTML = 'Cotação ao vivo indisponível no momento. <span class="linklike" id="retryLive">tentar de novo</span>'; $('retryLive').onclick=loadLive; return; }
+  if($('inMercado').value===mercadoAuto){ el.innerHTML = 'Usando a cotação ao vivo (venda) · atualiza sozinha a cada minuto'; return; }
+  el.innerHTML = 'Valor manual · ao vivo agora: <b>R$ '+nf4.format(liveAsk)+'</b> · <span class="linklike" id="useLive">usar ao vivo</span>';
+  $('useLive').onclick = ()=>{ mercadoAuto = nf4.format(liveAsk); $('inMercado').value = mercadoAuto; recompute(); recomputeSeg(); renderMercadoSug(); };
+}
+$('inMercado').addEventListener('input', renderMercadoSug);
+
+/* ============ histórico 30 dias ============ */
+let hist = [];
+
+async function loadHistory(){
+  const box = $('chartBox'), msg = $('chartMsg');
+  msg.style.display = 'flex'; msg.textContent = 'Carregando histórico…';
+  const ymd = d => d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+  const end = new Date(), start = new Date(Date.now()-30*864e5);
+  try{
+    const rows = await getJSON(API+'/daily/USD-BRL/60?start_date='+ymd(start)+'&end_date='+ymd(end));
+    // Um ponto por dia útil (fins de semana só repetem a sexta-feira)
+    const porDia = {};
+    rows.forEach(r=>{
+      const d = new Date(parseInt(r.timestamp,10)*1000);
+      if(d.getDay()===0 || d.getDay()===6) return;
+      const k = d.toDateString();
+      if(!porDia[k] || porDia[k].d < d) porDia[k] = {d, v:parseFloat(r.ask)};
+    });
+    hist = Object.values(porDia).sort((a,b)=>a.d-b.d);
+    if(hist.length<2) throw new Error('sem dados');
+    msg.style.display = 'none';
+    renderStats(); renderChart();
+  }catch(err){
+    box.querySelector('svg')?.remove();
+    msg.style.display = 'flex';
+    msg.innerHTML = 'Não foi possível carregar o histórico agora.<button class="btn-ghost" id="retryHist">Tentar de novo</button>';
+    $('retryHist').onclick = loadHistory;
+  }
+}
+
+function extremos(){
+  let iMax=0, iMin=0, soma=0;
+  hist.forEach((p,i)=>{ if(p.v>hist[iMax].v) iMax=i; if(p.v<hist[iMin].v) iMin=i; soma+=p.v; });
+  return {iMax, iMin, avg: soma/hist.length};
+}
+
+function renderStats(){
+  const {iMax,iMin,avg} = extremos();
+  const max = hist[iMax], min = hist[iMin], first = hist[0], last = hist[hist.length-1];
+  $('pMax').textContent = 'R$ '+nf4.format(max.v);  $('pMaxS').textContent = 'em '+fmtDia(max.d);
+  $('pMin').textContent = 'R$ '+nf4.format(min.v);  $('pMinS').textContent = 'em '+fmtDia(min.d);
+  $('pAvg').textContent = 'R$ '+nf4.format(avg);
+  $('pAmp').textContent = 'amplitude R$ '+nf4.format(max.v-min.v);
+  const varPct = (last.v-first.v)/first.v*100;
+  const pv = $('pVar');
+  pv.textContent = (varPct>=0?'+':'')+nf.format(varPct)+'%';
+  pv.className = 'v mono '+(varPct>=0?'up':'down');
+  $('pVarS').textContent = 'desde '+fmtDia(first.d);
+  if(liveAsk===null){ $('pNow').textContent = 'R$ '+nf4.format(last.v); $('pNowS').textContent = 'último fechamento ('+fmtDia(last.d)+')'; }
+}
+
+function renderChart(){
+  if(hist.length<2) return;
+  const box = $('chartBox');
+  box.querySelector('svg')?.remove();
+  const W = box.clientWidth, H = Math.max(240, box.clientHeight);
+  const pl=54, pr=14, pt=24, pb=26;
+  const {iMax,iMin,avg} = extremos();
+  const lo = hist[iMin].v, hi = hist[iMax].v, pad = (hi-lo)*0.18 || 0.05;
+  const y0 = lo-pad, y1 = hi+pad;
+  const x = i => pl + i*(W-pl-pr)/(hist.length-1);
+  const y = v => pt + (y1-v)*(H-pt-pb)/(y1-y0);
+
+  const line = hist.map((p,i)=>(i?'L':'M')+x(i).toFixed(1)+','+y(p.v).toFixed(1)).join('');
+  const area = line+'L'+x(hist.length-1).toFixed(1)+','+(H-pb)+'L'+pl+','+(H-pb)+'Z';
+
+  let grid='';
+  for(let k=0;k<=4;k++){
+    const v = y0 + (y1-y0)*k/4, yy = y(v).toFixed(1);
+    grid += '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+yy+'" y2="'+yy+'" stroke="rgba(244,241,233,.08)"/>'
+          + '<text x="'+(pl-8)+'" y="'+yy+'" dy="4" text-anchor="end" font-size="11" fill="rgba(244,241,233,.38)">'+nf.format(v)+'</text>';
+  }
+  const passo = Math.max(1, Math.ceil(hist.length/(W<500?4:7)));
+  let xl='';
+  hist.forEach((p,i)=>{ const ult = hist.length-1; if((i%passo===0 && ult-i>=passo*0.6) || i===ult) xl += '<text x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="rgba(244,241,233,.38)">'+fmtDia(p.d)+'</text>'; });
+
+  const marca = (i,cor,txt,acima) => {
+    const cx=x(i), cy=y(hist[i].v), ty = acima? cy-10 : cy+18;
+    const anchor = cx < pl+40 ? 'start' : (cx > W-pr-40 ? 'end' : 'middle');
+    return '<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="'+cor+'" stroke="#04211a" stroke-width="2"/>'
+         + '<text x="'+cx+'" y="'+ty+'" text-anchor="'+anchor+'" font-size="11.5" font-weight="600" fill="'+cor+'">'+txt+' '+nf4.format(hist[i].v)+'</text>';
+  };
+  const ya = y(avg).toFixed(1);
+
+  const svg = '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="Gráfico do dólar nos últimos 30 dias">'
+    + '<defs><linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37d38a" stop-opacity=".28"/><stop offset="1" stop-color="#37d38a" stop-opacity="0"/></linearGradient></defs>'
+    + grid + xl
+    + '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+ya+'" y2="'+ya+'" stroke="rgba(201,168,106,.55)" stroke-dasharray="4 4"/>'
+    + '<text x="'+(W-pr)+'" y="'+ya+'" dy="-5" text-anchor="end" font-size="10.5" fill="rgba(201,168,106,.85)">média</text>'
+    + '<path d="'+area+'" fill="url(#gArea)"/>'
+    + '<path d="'+line+'" fill="none" stroke="#37d38a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>'
+    + marca(iMax,'#f0a04b','máx',true) + marca(iMin,'#37d38a','mín',false)
+    + '<line id="hovLine" y1="'+pt+'" y2="'+(H-pb)+'" stroke="rgba(244,241,233,.25)" visibility="hidden"/>'
+    + '<circle id="hovDot" r="4.5" fill="#f4f1e9" visibility="hidden"/>'
+    + '<rect x="'+pl+'" y="0" width="'+(W-pl-pr)+'" height="'+H+'" fill="transparent" id="hovArea"/>'
+    + '</svg>';
+  box.insertAdjacentHTML('afterbegin', svg);
+
+  const tip=$('chartTip'), hl=$('hovLine'), hd=$('hovDot');
+  const mostra = ev => {
+    const rect = box.getBoundingClientRect();
+    const mx = ev.clientX - rect.left;
+    const i = Math.max(0, Math.min(hist.length-1, Math.round((mx-pl)/((W-pl-pr)/(hist.length-1)))));
+    const px=x(i), py=y(hist[i].v);
+    hl.setAttribute('x1',px); hl.setAttribute('x2',px); hl.setAttribute('visibility','visible');
+    hd.setAttribute('cx',px); hd.setAttribute('cy',py); hd.setAttribute('visibility','visible');
+    tip.innerHTML = '<b>R$ '+nf4.format(hist[i].v)+'</b><br>'+hist[i].d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'});
+    tip.style.left = Math.max(60, Math.min(W-60, px))+'px'; tip.style.top = py+'px'; tip.style.opacity = 1;
+  };
+  const esconde = ()=>{ tip.style.opacity=0; hl.setAttribute('visibility','hidden'); hd.setAttribute('visibility','hidden'); };
+  const area_ = $('hovArea');
+  area_.addEventListener('pointermove', mostra);
+  area_.addEventListener('pointerdown', mostra);
+  area_.addEventListener('pointerleave', esconde);
+}
+let resizeT; window.addEventListener('resize', ()=>{ clearTimeout(resizeT); resizeT=setTimeout(renderChart,150); });
+
 /* ============ init ============ */
 $('inValor').value='100.000,00';
 recompute();
 recomputeSeg();
 renderPerfil();
+loadLive();
+loadHistory();
+setInterval(loadLive, LIVE_EVERY_MS);
 </script>
 </body>
 </html>
