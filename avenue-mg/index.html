@@ -198,6 +198,18 @@
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
   @media(max-width:860px){.pano{grid-template-columns:1fr}}
 
+  /* alerta de oportunidade */
+  .opp{display:flex;gap:16px;align-items:center;margin-bottom:20px;padding:16px 18px;border-radius:var(--radius-sm);
+    background:linear-gradient(110deg, rgba(201,168,106,.22), rgba(55,211,138,.12));border:1px solid rgba(201,168,106,.55);
+    box-shadow:0 0 0 4px rgba(201,168,106,.08)}
+  .opp[hidden]{display:none}
+  .opp .ico{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--gold);color:var(--green-950);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700}
+  .opp .tt{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--cream);line-height:1.2}
+  .opp .tx{font-size:13px;color:var(--cream-dim);margin-top:4px}
+  .opp .tx b{color:var(--cream)}
+  .opp-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;background:var(--gold);color:var(--green-950);text-decoration:none}
+  .opp-badge[hidden]{display:none}
+
   .two-col{grid-template-columns:1fr 1fr}
   @media(max-width:860px){.two-col{grid-template-columns:1fr}}
   @media(max-width:640px){
@@ -205,6 +217,12 @@
     .ticker{width:100%;margin-left:0;justify-content:space-between}
     .card{padding:18px}
     header .upd{display:none}
+    .topbar{padding:10px 16px;gap:8px}
+    .ticker{gap:8px}
+    .live .lbl{display:none}
+    .opp{align-items:flex-start;gap:12px;padding:14px}
+    .opp .ico{width:32px;height:32px;font-size:15px}
+    .opp .tt{font-size:16px}
   }
   @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -226,6 +244,7 @@
         <span class="px mono" id="livePx">—</span>
         <span class="pill" id="liveChg"></span>
       </div>
+      <a class="opp-badge" id="oppBadge" href="#panorama" hidden>★ Oportunidade</a>
       <span class="upd" id="liveUpd">carregando cotação…</span>
     </div>
   </div>
@@ -260,6 +279,13 @@
       </div>
     </div>
     <div class="card">
+      <div class="opp" id="oppAlert" role="status" hidden>
+        <div class="ico">★</div>
+        <div>
+          <div class="tt" id="oppTitle">Alerta de oportunidade</div>
+          <div class="tx" id="oppText"></div>
+        </div>
+      </div>
       <div class="pano">
         <div class="pano-stats">
           <div class="stat hero-stat wide">
@@ -860,6 +886,7 @@ async function loadLive(){
       recompute(); recomputeSeg();
     }
     renderMercadoSug();
+    renderAlerta();
   }catch(err){
     $('livePulse').classList.add('off');
     $('livePx').textContent = '—';
@@ -877,6 +904,30 @@ function renderMercadoSug(){
   $('useLive').onclick = ()=>{ mercadoAuto = nf4.format(liveAsk); $('inMercado').value = mercadoAuto; recompute(); recomputeSeg(); renderMercadoSug(); };
 }
 $('inMercado').addEventListener('input', renderMercadoSug);
+
+/* ============ alerta de oportunidade ============ */
+// Aparece só em queda forte: dólar atual pelo menos ALERTA_PCT% abaixo da média dos últimos 30 dias.
+// Calibrado com o último ano: com 2% o alerta aparece em ~1 a cada 9 dias úteis.
+const ALERTA_PCT = 2.0;
+const testeAlerta = new URLSearchParams(location.search).has('testeAlerta'); // abra a página com ?testeAlerta para ver o aviso
+
+function renderAlerta(){
+  const box = $('oppAlert'), badge = $('oppBadge');
+  const atual = liveAsk!==null ? liveAsk : (hist.length ? hist[hist.length-1].v : null);
+  if(atual===null || hist.length<2){ box.hidden = true; badge.hidden = true; return; }
+  const {iMin, avg} = extremos();
+  const abaixo = (avg-atual)/avg*100;
+  if(abaixo < ALERTA_PCT && !testeAlerta){ box.hidden = true; badge.hidden = true; return; }
+
+  const min = hist[iMin].v;
+  const naMinima = atual <= min;
+  $('oppTitle').textContent = naMinima ? 'Oportunidade: dólar na mínima dos últimos 30 dias' : 'Oportunidade: dólar bem abaixo da média de 30 dias';
+  $('oppText').innerHTML = 'Agora em <b>R$ '+nf4.format(atual)+'</b>, <b>'+nf.format(abaixo)+'% abaixo</b> da média de 30 dias (R$ '+nf4.format(avg)+')'
+    + (naMinima ? '. É o menor patamar do período.' : ' · mínima do período: R$ '+nf4.format(min)+'.')
+    + ' Bom momento para conversar com clientes que estão esperando para enviar.'
+    + (testeAlerta && abaixo < ALERTA_PCT ? ' <i>(modo de teste: hoje o alerta não estaria ativo)</i>' : '');
+  box.hidden = false; badge.hidden = false;
+}
 
 /* ============ histórico 30 dias ============ */
 let hist = [];
@@ -899,7 +950,7 @@ async function loadHistory(){
     hist = Object.values(porDia).sort((a,b)=>a.d-b.d);
     if(hist.length<2) throw new Error('sem dados');
     msg.style.display = 'none';
-    renderStats(); renderChart();
+    renderStats(); renderChart(); renderAlerta();
   }catch(err){
     box.querySelector('svg')?.remove();
     msg.style.display = 'flex';
